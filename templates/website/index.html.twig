@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    
+    <h1>Bienvenue dans ce blog !</h1>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas recusandae molestiae sit, iste consequuntur fugit cum nemo dolor, modi at error quam officia distinctio neque adipisci libero harum accusantium amet quasi vitae? Veniam tempora impedit, harum necessitatibus iusto quidem reiciendis!</p>
+    <p>Odit voluptate beatae tempora quibusdam aliquid, vero ullam eius praesentium enim officia, quam rem culpa, dolorem explicabo consectetur neque ipsum magni labore inventore! Officia recusandae alias quis dolor amet non, debitis temporibus, mollitia rerum dignissimos libero accusantium suscipit ea hic.</p>
+
+    <section class="figures">
+
+        <figure>
+            <h2>Titre de la figure</h2>
+            <div class="metadata">Ecrit le 10/11/2022 à 15:52 dans la catégorie Débutant</div>
+            <div class="content">
+                <img src="https://via.placeholder.com/350x150" alt="">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium explicabo laboriosam reiciendis neque temporibus aliquid.</p>
+                <p>Illo pariatur quasi quae quibusdam sapiente tenetur nesciunt quo, cupiditate expedita quisquam. Et, tempore dolor.</p>
+                <a href="{{ path('app_show')}}" class="btn btn-primary">voir la figure</a>
+            </div>
+        </figure>
+        <figure>
+            <h2>Titre de la figure</h2>
+            <div class="metadata">Ecrit le 10/11/2022 à 15:52 dans la catégorie Débutant</div>
+            <div class="content">
+                <img src="https://via.placeholder.com/350x150" alt="">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio natus quia unde eaque incidunt optio.</p>
+                <p>Consequuntur, ducimus rerum? Maxime harum doloribus officia voluptatum ab labore non est iure quibusdam provident!</p>
+                <a href="" class="btn btn-primary">voir la figure</a>
+            </div>
+        </figure>
+        <figure>
+            <h2>Titre de la figure</h2>
+            <div class="metadata">Ecrit le 10/11/2022 à 15:52 dans la catégorie Débutant</div>
+            <div class="content">
+                <img src="https://via.placeholder.com/350x150" alt="">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit labore amet laboriosam, alias quas sapiente?</p>
+                <p>Fugiat aut eligendi laborum, sed eius accusamus doloremque vel? Fugiat maxime accusamus blanditiis non expedita.</p>
+                <a href="" class="btn btn-primary">voir la figure</a>
+            </div>
+        </figure>
+
+    </section>
+    
+{% endblock body %}
