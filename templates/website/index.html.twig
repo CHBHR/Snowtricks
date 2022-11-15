@@ -2,23 +2,32 @@
 
 {% block body %}
     
-    <h1>Bienvenue dans ce blog !</h1>
+    <h1>Welcome to Snowtricks</h1>
 
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas recusandae molestiae sit, iste consequuntur fugit cum nemo dolor, modi at error quam officia distinctio neque adipisci libero harum accusantium amet quasi vitae? Veniam tempora impedit, harum necessitatibus iusto quidem reiciendis!</p>
-    <p>Odit voluptate beatae tempora quibusdam aliquid, vero ullam eius praesentium enim officia, quam rem culpa, dolorem explicabo consectetur neque ipsum magni labore inventore! Officia recusandae alias quis dolor amet non, debitis temporibus, mollitia rerum dignissimos libero accusantium suscipit ea hic.</p>
+    <h3>Le site pour le partage d'informations sur les figures de snowboard!</h3>
+    <p>Ici on parle de snow! Consulte les tricks documenté par la communauté, ajoute des informations, photos et vidéos et participe à des discussions figure par figure avec les autres membres. Aide à créer, améliorer et modifier les informations présentes pour faire de ce site une référence dans le monde du snow!</p>
 
     <section class="figures">
 
+        {# <div class="card bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+              <h4 class="card-title">Secondary card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div> #}
+
         {% for figure in figures %}
-            <article>
-                <h2>{{ figure.nom }}</h2>
-                <div class="metadata">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} dans la catégorie Débutant</div>
-                <div class="content">
-                    <img src="https://via.placeholder.com/350x150" alt="">
-                    {{ figure.description | raw }}
-                    <a href="{{ path('app_show', {'id':figure.id}) }}" class="btn btn-primary">voir la figure</a>
+            <div class="card bg-secondary mb-3" style="max-width: 20rem;">
+                <div class="card-header">{{ figure.nom }}</div>
+                <div class="card-body">
+                    <div class="metadata card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} dans la catégorie Débutant</div>
+                    <div class="content">
+                        <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Card image cap">
+                        {{ figure.description | raw }}
+                        <a href="{{ path('app_figure_show', {'id':figure.id}) }}" class="btn btn-primary">voir la figure</a>
+                    </div>
                 </div>
-            </article>
+            </div>
         {% endfor %}
 
     </section>

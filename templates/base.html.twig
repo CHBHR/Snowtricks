@@ -18,19 +18,19 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                    <a class="navbar-brand" href="/">Snowtricks</a>
+                    <a class="navbar-brand" href="{{ path('app_home') }}">Snowtricks</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarColor01">
-                        <ul class="navbar-nav me-auto">
+                        <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Accueil
+                                <a class="nav-link" href="{{ path('app_home') }}">Accueil
                                 <span class="visually-hidden">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Crée une figure</a>
+                                <a class="nav-link" href="{{ path('app_figure_create') }}">Crée une figure</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Se connecter</a>

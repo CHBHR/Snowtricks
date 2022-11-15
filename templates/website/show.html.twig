@@ -5,10 +5,11 @@
     <article>
         <h2>{{ figure.nom }}</h2>
         <div class="metadata">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} dans la catégorie Débutant</div>
-            <div class="content">
-                <img src="https://via.placeholder.com/350x150" alt="">
-                {{ figure.description | raw }}
-            </div>
+        <div class="metadata">Modifié le {{ figure.dateModification | date('d/m/Y') }} à {{ figure.dateModification | date('H:i') }}</div>
+        <div class="content">
+            <img src="https://via.placeholder.com/350x150" alt="">
+            {{ figure.description | raw }}
+        </div>
         </div>
     </article>
 
