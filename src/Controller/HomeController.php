@@ -38,11 +38,10 @@ class HomeController extends AbstractController
             $figure = new Figure();
         }
 
-        // $form = $this->createFormBuilder($figure)
-        //              ->add('nom')
-        //              ->add('description')
-        //              ->getForm();
-
+        /**
+         * créé le formulaire basé sur les informations de l'entitée
+         * le formulaire à été crée avec la cli et évite la duplication du code
+         */
         $form = $this->createForm(FigureType::class, $figure);
 
         $form->handleRequest($request);
@@ -61,7 +60,7 @@ class HomeController extends AbstractController
         }
 
         /**
-         * $form étant un object complex, passe le résultat de la fonction createView() à twig pour qu'il puisse e traiter
+         * $form étant un object complex, passe le résultat de la fonction createView() à twig pour qu'il puisse le traiter
         */
         return $this->render('website/create.html.twig', [
             'formNewFigure' => $form->createView(),
