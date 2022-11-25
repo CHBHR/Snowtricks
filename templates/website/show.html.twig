@@ -2,18 +2,50 @@
 
 {% block body %}
 
-<figure>
-        <h2>Titre de la figure</h2>
-        <div class="metadata">Ecrit le 10/11/2022 à 15:52 dans la catégorie Débutant</div>
-        <div class="content">
-            <img src="https://via.placeholder.com/350x150" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium explicabo laboriosam reiciendis neque temporibus aliquid.</p>
-            <p>Illo pariatur quasi quae quibusdam sapiente tenetur nesciunt quo, cupiditate expedita quisquam. Et, tempore dolor.</p>
-            <hr>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione aliquam alias, vitae nostrum repudiandae consequatur architecto, mollitia perferendis obcaecati ea sunt ipsum rerum fugit. Eligendi hic nihil, at est in quis modi, qui quisquam optio autem nisi iure nobis perspiciatis. Id, officiis! Deserunt sed velit dolor doloremque, asperiores magnam voluptatem.</p>
-            <p>Fugiat ab enim recusandae ipsum cumque dolorem dolorum quisquam eos ut, autem voluptatem magnam quia deserunt, beatae neque. Nemo, eos explicabo? Explicabo voluptatem exercitationem officia aspernatur accusantium pariatur neque magni praesentium fugiat ea harum labore error eos eligendi tempora id ratione, totam consectetur architecto consequuntur tempore ipsum sint modi quae?</p>
+    <article>
+        <h2>{{ figure.nom }}</h2>
+        <div class="metadata">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}</div>
+            <div class="metadata">Modifié le {{ figure.dateModification | date('d/m/Y') }} à {{ figure.dateModification | date('H:i') }}</div>
+            <div class="content">
+                <img src="https://via.placeholder.com/350x150" alt="">
+                {{ figure.description | raw }}
+            </div>
+            <a class="btn btn-primary" href="{{ path('app_figure_edit', {'id':figure.id}) }}">Modifier la figure</a>
         </div>
-        <a href=""><button class="btn-primary">modifier</button></a>
-    </figure>
+
+    </article>
+
+    <section id="commentaires">
+        <h1>Commentaires :</h1>
+        <h3>Il y a {{ figure.commentaires | length }} commentaires</h3>
+        {% for commentaire in figure.commentaires %}
+            <div class="commentaire">
+                <div class="row">
+                    <div class="col-3">
+                        <p>nom auteur</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
+                    </div>
+                    <div class="col">
+                        {{commentaire.contenu | raw}}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if app.user %}
+            {{ form_start(formCommentaire) }}
+            {{ form_row(formCommentaire.contenu, {
+                'attr':{
+                    'placeholder': "Votre commentaire"
+                }
+            }) }}
+            <button type="submit" class="btn btn-success">Publier mon commentaire</button>
+            {{ form_end(formCommentaire) }}
+        {% else %}
+            <h3>Connectez vous pour ajouter un commentaire</h3>
+            <a href="{{ path('app_security_connexion') }}" class="btn btn-primary">
+                Se connecter
+            </a>
+        {% endif %}
+    </section>
 
 {% endblock %}
