@@ -16,6 +16,8 @@
     </article>
 
     <section id="commentaires">
+        <h1>Commentaires :</h1>
+        <h3>Il y a {{ figure.commentaires | length }} commentaires</h3>
         {% for commentaire in figure.commentaires %}
             <div class="commentaire">
                 <div class="row">
@@ -28,6 +30,22 @@
                 </div>
             </div>
         {% endfor %}
+
+        {% if app.user %}
+            {{ form_start(formCommentaire) }}
+            {{ form_row(formCommentaire.contenu, {
+                'attr':{
+                    'placeholder': "Votre commentaire"
+                }
+            }) }}
+            <button type="submit" class="btn btn-success">Publier mon commentaire</button>
+            {{ form_end(formCommentaire) }}
+        {% else %}
+            <h3>Connectez vous pour ajouter un commentaire</h3>
+            <a href="{{ path('app_security_connexion') }}" class="btn btn-primary">
+                Se connecter
+            </a>
+        {% endif %}
     </section>
 
 {% endblock %}

@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Figure;
-use App\Form\FigureType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\FigureRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
+
+use App\Repository\FigureRepository;
+use App\Entity\Commentaire;
+use App\Entity\Figure;
+use App\Form\CommentaireType;
+use App\Form\FigureType;
 
 class HomeController extends AbstractController
 {
@@ -40,7 +42,7 @@ class HomeController extends AbstractController
 
         /**
          * créé le formulaire basé sur les informations de l'entitée
-         * le formulaire à été crée avec la cli et évite la duplication du code
+         * le formulaire à été crée avec la cli et évite la duplication du code 
          */
         $form = $this->createForm(FigureType::class, $figure);
 
@@ -69,10 +71,30 @@ class HomeController extends AbstractController
     }
 
     #[Route('/figure/{id}', name: 'app_figure_show')]
-    public function show(Figure $figure)
+    public function show(Figure $figure, Request $request,ManagerRegistry $doctrine)
     {
+        $commentaire = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaire);
+
+        $form->handleRequest($request);
+
+        $manager = $doctrine->getManager();
+
+        if($form->isSubmitted() && $form->isValid()){
+            $commentaire    ->setDateCreation(new \DateTime())
+                            ->setFigure($figure);
+            
+            $manager->persist($commentaire);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_figure_show', [
+                'id' => $figure->getId()
+            ]);
+        }
+
         return $this->render('website/show.html.twig', [
             'figure' => $figure,
+            'formCommentaire' =>$form->createView()
         ]);
     }
 
