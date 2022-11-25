@@ -20,7 +20,7 @@
             <div class="card bg-secondary mb-3" style="max-width: 20rem;">
                 <div class="card-header">{{ figure.nom }}</div>
                 <div class="card-body">
-                    <div class="metadata card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} dans la catégorie Débutant</div>
+                    <div class="metadata card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}</div>
                     <div class="content">
                         <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Card image cap">
                         {{ figure.description | raw }}

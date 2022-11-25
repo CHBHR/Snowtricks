@@ -13,6 +13,7 @@
     {{ form_start(formNewFigure) }}
 
     {{ form_row(formNewFigure.nom, {'attr':{'placeholder': "nom de la figure"}}) }}
+    {{ form_row(formNewFigure.groupe) }}
     {{ form_row(formNewFigure.description, {'attr':{'placeholder': "description de la figure"}}) }}
 
     <button type="submit" class="btn btn-success">
