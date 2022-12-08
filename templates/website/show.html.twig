@@ -4,11 +4,14 @@
 
     <article>
         <h2>{{ figure.nom }}</h2>
-        <div class="metadata">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}</div>
-            <div class="metadata">Modifié le {{ figure.dateModification | date('d/m/Y') }} à {{ figure.dateModification | date('H:i') }}</div>
+        <div class="metadata">
+            Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}
+        </div>
+        <div class="metadata">
+            Modifié le {{ figure.dateModification | date('d/m/Y') }} à {{ figure.dateModification | date('H:i') }}
+        </div>
 
             <div class="content">
-                {# <img src="https://via.placeholder.com/350x150" alt=""> #}
 
                 {% if figure.images  is empty %}
 
@@ -41,18 +44,21 @@
                 </div>
             
                 {% else %}
+                    <div class="d-flex justify-content-around"></div>
                     {% for videos in figure.videos %}
-                        <div class="d-flex justify-content-around">
-                            
+                             
                             {{videos.url | raw}}
 
-                        </div>
                     {% endfor %}
+                    </div>
                 {% endif %}
             </div>
-            
+        
+        <div class="container">
+            {% if app.user %}
             <a class="btn btn-primary" href="{{ path('app_figure_edit', {'id':figure.id}) }}">Modifier la figure</a>
             <a class="btn btn-danger" href="{{ path('app_figure_delete', {'id': figure.id}) }}" onclick="return confirm('Ête vous sur de vouloir supprimer la figure et tous ses composants?')">Supprimer la figure</a>
+            {% endif %}
         </div>
 
     </article>
