@@ -171,4 +171,22 @@ class HomeController extends AbstractController
 
         return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
     }
+
+        /**
+     * Suppression des images
+     */
+    #[Route('/figure/{id}/delete', name: 'app_figure_delete')]
+    public function deleteFigure(Figure $figure,ManagerRegistry $doctrine)
+    {
+        $entityManager = $doctrine->getManager();
+
+        // On supprime la figure
+        $entityManager = $doctrine->getManager();
+
+        //ajouter la suppréssion des vidéos et des images?
+        $entityManager->remove($figure);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_home');
+    }
 }

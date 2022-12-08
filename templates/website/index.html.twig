@@ -7,23 +7,16 @@
     <h3>Le site pour le partage d'informations sur les figures de snowboard!</h3>
     <p>Ici on parle de snow! Consulte les tricks documenté par la communauté, ajoute des informations, photos et vidéos et participe à des discussions figure par figure avec les autres membres. Aide à créer, améliorer et modifier les informations présentes pour faire de ce site une référence dans le monde du snow!</p>
 
-    <section class="figures">
-
-        {# <div class="card bg-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-              <h4 class="card-title">Secondary card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div> #}
-
+    <section class="figures d-flex">
+        {# class="d-flex justify-content-around" #}
         {% for figure in figures %}
-            <div class="card bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card bg-secondary mb-3 m-2" style="max-width: 20rem;">
                 <div class="card-header">{{ figure.nom }}</div>
                 <div class="card-body">
                     <div class="metadata card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}</div>
                     <div class="content">
                         <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Card image cap">
-                        {{ figure.description | raw }}
+                        {{ figure.description|length > 150 ? figure.description|slice(0, 150) ~ '...' : figure.description   | raw }}
                         <a href="{{ path('app_figure_show', {'id':figure.id}) }}" class="btn btn-primary">voir la figure</a>
                     </div>
                 </div>

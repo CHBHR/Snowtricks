@@ -46,10 +46,10 @@ class Figure
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Images::class)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Images::class, cascade:["remove"])]
     private Collection $images;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, cascade:["remove"])]
     private Collection $videos;
 
     public function __construct()
