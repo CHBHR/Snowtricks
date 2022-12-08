@@ -15,6 +15,59 @@
     {{ form_row(formNewFigure.nom, {'attr':{'placeholder': "nom de la figure"}}) }}
     {{ form_row(formNewFigure.groupe) }}
     {{ form_row(formNewFigure.description, {'attr':{'placeholder': "description de la figure"}}) }}
+    {{ form_row(formNewFigure.images) }}
+
+    {# Affichage des images lors de la modification #}
+    {% if formEditFigure %}
+
+        <h3>Images</h3>
+
+        {% if figure.images  is empty %}
+
+        <div class="alert alert-light">
+            <h5>Il n'y a pas d'images associé à la figure</h5>
+        </div>
+        
+        {% else %}
+
+            {% for image in figure.images %}
+                <div>
+                    {{image.id}}
+                    <img src="{{ asset('/uploads/'~image.nom) }}" alt="" width="150">
+                    {# On ajoute un lien permettant de supprimer une image)#}
+                    <a href="{{ path('app_figure_image_delete', {'id': image.id}) }}" >Supprimer</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    {# Affichage des videos lors de la modification #}
+    {% if formEditFigure %}
+
+        <h3>Videos</h3>
+
+        {{ form_row(formNewFigure.video) }}
+
+
+        {% if figure.videos  is empty %}
+
+        <div class="alert alert-light">
+            <h5>Il n'y a pas de vidéo associé à la figure</h5>
+        </div>
+            
+        {% else %}
+            {% for videos in figure.videos %}
+                <div>
+                    {{videos.id}}
+                    {{videos.url | raw}}
+                    {# <iframe width="560" height="315" src="https://www.youtube.com/embed/GS9MMT_bNn8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+                    {# On ajoute un lien permettant de supprimer une video)#}
+                    <a href="{{ path('app_figure_video_delete', {'id': videos.id}) }}" >Supprimer</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    {% endif %}
 
     <button type="submit" class="btn btn-success">
         {% if formEditFigure %}
