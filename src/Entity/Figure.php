@@ -49,10 +49,14 @@ class Figure
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Images::class)]
     private Collection $images;
 
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class)]
+    private Collection $videos;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +178,36 @@ class Figure
             // set the owning side to null (unless already changed)
             if ($image->getFigure() === $this) {
                 $image->setFigure(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Video>
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos->add($video);
+            $video->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getFigure() === $this) {
+                $video->setFigure(null);
             }
         }
 

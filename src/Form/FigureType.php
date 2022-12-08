@@ -4,9 +4,12 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Entity\Groupe;
+use App\Entity\Video;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,6 +19,7 @@ class FigureType extends AbstractType
     {
         $builder
             ->add('nom')
+
             /**
              * Ajout d'un champs d'une autre entitée sous forme de choix déroulant
              */
@@ -24,6 +28,7 @@ class FigureType extends AbstractType
                 'choice_label' => 'titre'
             ])
             ->add('description')
+
             // On ajoute le champ "images" dans le formulaire
             // Il n'est pas lié à la base de données (mapped à false)
             ->add('images', FileType::class,[
@@ -32,6 +37,20 @@ class FigureType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
+            
+            ->add('video', TypeTextType::class, [
+                'mapped' => false,
+                'label' => 'url de la vidéo',
+                'required' => false
+            ])
+
+            // ->add('videos', CollectionType::class, [
+            //     'entry_type' => VideoType::class,
+            //     'allow_add' => true,
+            //     'mapped' => false,
+            //     'allow_delete' => true
+            // ])
+
         ;
     }
 

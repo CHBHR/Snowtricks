@@ -14,6 +14,8 @@ use App\Entity\Figure;
 use App\Form\CommentaireType;
 use App\Form\FigureType;
 use App\Entity\Images;
+use App\Entity\Video;
+use App\Form\VideoType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends AbstractController
@@ -78,6 +80,16 @@ class HomeController extends AbstractController
                 $figure->addImage($img);
             }
 
+            // Upload des videos en db
+            $videos = $form->get('video')->getData();
+
+            if($videos != null){
+                $video = new Video();
+                $video->setUrl($videos);
+                $entityManager->persist($video);
+                $figure->addVideo($video);
+            }
+
             $entityManager->persist($figure);
             $entityManager->flush();
 
@@ -90,7 +102,7 @@ class HomeController extends AbstractController
         return $this->render('website/create.html.twig', [
             'formNewFigure' => $form->createView(),
             'formEditFigure' => $figure->getId() !== null,
-            'figure' => $figure
+            'figure' => $figure,
         ]);
     }
 
@@ -138,6 +150,23 @@ class HomeController extends AbstractController
         // On supprime l'entrée en db
         $entityManager = $doctrine->getManager();
         $entityManager->remove($image);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
+    }
+
+    /**
+     * Suppression des videos
+     */
+    #[Route('/figure/{id}/video/delete', name: 'app_figure_video_delete')]
+    public function deleteVideo(Video $video,ManagerRegistry $doctrine)
+    {
+
+        $figureId = $video->getFigure()->getId();
+
+        // On supprime l'entrée en db
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($video);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
