@@ -15,6 +15,20 @@
     {{ form_row(formNewFigure.nom, {'attr':{'placeholder': "nom de la figure"}}) }}
     {{ form_row(formNewFigure.groupe) }}
     {{ form_row(formNewFigure.description, {'attr':{'placeholder': "description de la figure"}}) }}
+    {{ form_row(formNewFigure.images) }}
+
+    {# Affichage des images lors de la modification #}
+    {% if formEditFigure %}
+        <h3>Images</h3>
+        {% for image in figure.images %}
+            <div>
+                {{image.id}}
+                <img src="{{ asset('/uploads/'~image.nom) }}" alt="" width="150">
+                {# On ajoute un lien permettant de supprimer une image)#}
+                <a href="{{ path('app_figure_image_delete', {'id': image.id}) }}" >Supprimer</a>
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <button type="submit" class="btn btn-success">
         {% if formEditFigure %}

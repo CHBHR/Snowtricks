@@ -13,6 +13,8 @@ use App\Entity\Commentaire;
 use App\Entity\Figure;
 use App\Form\CommentaireType;
 use App\Form\FigureType;
+use App\Entity\Images;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends AbstractController
 {
@@ -32,7 +34,7 @@ class HomeController extends AbstractController
      */
     #[Route('/figure/new', name: 'app_figure_create')]
     #[Route('/figure/{id}/edit', name: 'app_figure_edit')]
-    public function formFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine )
+    public function formFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();
 
@@ -55,6 +57,27 @@ class HomeController extends AbstractController
             }
             $figure->setDateModification(new \DateTime());
 
+            /**
+             * Gestion de l'upload des images
+             */
+            $images = $form->get('images')->getData();
+            foreach($images as $image){
+                //Gestion du nom du fichier
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+
+                //Copie du fichier dans le dossier uploads
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+
+                //Création de l'image en db
+                $img = new Images();
+                $img->setNom($fichier);
+                $entityManager->persist($img);
+                $figure->addImage($img);
+            }
+
             $entityManager->persist($figure);
             $entityManager->flush();
 
@@ -66,7 +89,8 @@ class HomeController extends AbstractController
         */
         return $this->render('website/create.html.twig', [
             'formNewFigure' => $form->createView(),
-            'formEditFigure' => $figure->getId() !== null
+            'formEditFigure' => $figure->getId() !== null,
+            'figure' => $figure
         ]);
     }
 
@@ -98,4 +122,24 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * Suppression des images
+     */
+    #[Route('/figure/{id}/image/delete', name: 'app_figure_image_delete')]
+    public function deleteImage(Images $image,ManagerRegistry $doctrine)
+    {
+
+        $figureId = $image->getFigure()->getId();
+
+        $nomImg = $image->getNom();
+        //On supprime le fichier
+        unlink($this->getParameter('images_directory').'/'.$nomImg);
+
+        // On supprime l'entrée en db
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($image);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
+    }
 }
