@@ -84,7 +84,7 @@ class HomeController extends AbstractController
             $videos = $form->get('video')->getData();
 
             if($videos != null){
-                $video = new Video();
+                $video = new Video;
                 $video->setUrl($videos);
                 $entityManager->persist($video);
                 $figure->addVideo($video);
