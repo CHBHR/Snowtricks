@@ -63,8 +63,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isVerified = false;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $resetToken;
+    #[ORM\Column(length: 100)]
+    private ?string $resetToken;
 
     public function getUserIdentifier():string
     {

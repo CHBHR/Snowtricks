@@ -76,6 +76,7 @@ class HomeController extends AbstractController
                 //Création de l'image en db
                 $img = new Images();
                 $img->setNom($fichier);
+                
                 $entityManager->persist($img);
                 $figure->addImage($img);
             }

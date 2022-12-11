@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Images;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,8 +41,33 @@ class SecurityController extends AbstractController
             );
             $utilisateur->setMotDePasse($hash);
             $utilisateur->setDateInscription(new \DateTime());
+            $utilisateur->setResetToken('');
 
             $entityManager->persist($utilisateur);
+
+             /**
+             * Gestion de l'upload des images
+             */
+            $avatars = $form->get('avatar')->getData();
+            foreach($avatars as $avatar){
+                //Gestion du nom du fichier
+                $fichier = md5(uniqid()).'.'.$avatar->guessExtension();
+
+                //Copie du fichier dans le dossier uploads
+                $avatar->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+
+                //Création de l'image en db
+                
+                $avat = new Images();
+                $avat->setNom($fichier);
+
+                $entityManager->persist($avat);
+                $utilisateur->setAvatar($avat);
+
+            }
             $entityManager->flush();
 
             //Génération du JWT utilisateur

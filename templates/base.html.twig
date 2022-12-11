@@ -21,6 +21,7 @@
                     <a class="navbar-brand" href="{{ path('app_home') }}">Snowtricks</a>
                     {% if app.user %}
                         <h4 class="nav-item">Bonjour {{ app.user.nomUtilisateur }}</h4>
+                        <img src="{{ asset('/uploads/'~ app.user.avatar.nom) }}" alt="" height="25" class="">
                     {% endif %}
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
