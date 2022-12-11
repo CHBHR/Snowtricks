@@ -57,6 +57,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         )]
     private ?string $confirmerMotDePasse;
 
+    #[ORM\OneToOne(mappedBy: 'utilisateurId', cascade: ['persist', 'remove'])]
+    private ?Images $avatar = null;
+
+    #[ORM\Column]
+    private ?bool $isVerified = false;
+
+    #[ORM\Column(length: 100)]
+    private ?string $resetToken;
+
     public function getUserIdentifier():string
     {
         return $this->nomUtilisateur;
@@ -162,6 +171,52 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $motDePasse): self
     {
         $this->motDePasse = $motDePasse;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Images
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Images $avatar): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($avatar === null && $this->avatar !== null) {
+            $this->avatar->setUtilisateurId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($avatar !== null && $avatar->getUtilisateurId() !== $this) {
+            $avatar->setUtilisateurId($this);
+        }
+
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

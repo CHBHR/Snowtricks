@@ -19,6 +19,9 @@ class Images
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Figure $figure = null;
 
+    #[ORM\OneToOne(inversedBy: 'avatar', cascade: ['persist', 'remove'])]
+    private ?Utilisateur $utilisateurId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Images
     public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
+
+        return $this;
+    }
+
+    public function getUtilisateurId(): ?utilisateur
+    {
+        return $this->utilisateurId;
+    }
+
+    public function setUtilisateurId(?utilisateur $utilisateurId): self
+    {
+        $this->utilisateurId = $utilisateurId;
 
         return $this;
     }

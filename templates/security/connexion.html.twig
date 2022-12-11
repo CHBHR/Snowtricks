@@ -18,5 +18,10 @@
             <button type="submit" class="btn btn-success">Se connecter</button>
         </div>
     </form>
+    
+    <a href="{{ path('app_security_oublie_pass') }}" class="">J'ai oublier mon mot de passe</a>
+
+    <h3>Pas encore inscrit?</h3>
+    <a href="{{ path('app_security_inscription') }}" class="btn btn-primary">Inscrivez vous</a>
 
 {% endblock %}

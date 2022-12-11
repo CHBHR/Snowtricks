@@ -1,0 +1,5 @@
+<h1>Validation de l'email</h1>
+<p>Bonjour {{ utilisateur.nomUtilisateur }},</p>
+<p>Cliquer sur le lien ci dessous pour valider l'email de votre comtpe sur SnowTricks</p>
+<p><a href="{{ absolute_url(path('app_verify_user', {token: token})) }}">Lien</a></p>
+<p>Ce lien expirera dans 3 heures</p>

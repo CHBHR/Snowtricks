@@ -76,6 +76,7 @@ class HomeController extends AbstractController
                 //Création de l'image en db
                 $img = new Images();
                 $img->setNom($fichier);
+                
                 $entityManager->persist($img);
                 $figure->addImage($img);
             }
@@ -84,7 +85,7 @@ class HomeController extends AbstractController
             $videos = $form->get('video')->getData();
 
             if($videos != null){
-                $video = new Video();
+                $video = new Video;
                 $video->setUrl($videos);
                 $entityManager->persist($video);
                 $figure->addVideo($video);
