@@ -63,21 +63,31 @@
 
     </article>
 
-    <section id="commentaires" class="container">
+    <section id="liste_commentaires" class="container">
         <h1>Commentaires :</h1>
-        <h3>Il y a {{ figure.commentaires | length }} commentaires</h3>
-        {% for commentaire in figure.commentaires %}
-            <div class="commentaire">
-                <div class="row">
-                    <div class="col-3">
-                        <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
-                    </div>
-                    <div class="col">
-                        {{commentaire.contenu | raw}}
+        {% if figure.commentaires is defined %}
+            <h3>Il y a {{ figure.commentaires | length }} commentaires</h3>
+            {% for commentaire in commentaires.data %}
+                <div class="commentaire">
+                    <div class="row">
+                        <div class="col-3">
+                            <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
+                        </div>
+                        <div class="col">
+                            {{commentaire.contenu | raw}}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+            
+            {% set path = 'app_figure_show' %}
+            {% set nbCommentairesMax = commentaires.nbCommentairesMax %}
+            {% set limit = commentaires.limit %}
+            {% include "_partials/_loadMoreCommentaires.html.twig" %}
+
+        {% else %}
+            <h3>Il n'y a aucun commentaires</h3>
+        {% endif %}
 
         {% if app.user %}
             {{ form_start(formCommentaire) }}

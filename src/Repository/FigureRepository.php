@@ -40,8 +40,9 @@ class FigureRepository extends ServiceEntityRepository
         }
     }
 
-    public function findFiguresPaginated(int $limit = 4): array
+    public function findFiguresPaginated($limit = 4): array
     {
+        $limit = (int) $limit;
         $limit = abs($limit);
 
         $result = [];
