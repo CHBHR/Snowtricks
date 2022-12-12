@@ -22,7 +22,11 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?figure $figure = null;
+    private ?Figure $figure = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $auteur = null;
 
     public function getId(): ?int
     {
@@ -61,6 +65,18 @@ class Commentaire
     public function setFigure(?figure $figure): self
     {
         $this->figure = $figure;
+
+        return $this;
+    }
+
+    public function getAuteur(): ?Utilisateur
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?Utilisateur $auteur): self
+    {
+        $this->auteur = $auteur;
 
         return $this;
     }
