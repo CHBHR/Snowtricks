@@ -9,21 +9,27 @@
     <h3>Le site pour le partage d'informations sur les figures de snowboard!</h3>
     <p>Ici on parle de snow! Consulte les tricks documenté par la communauté, ajoute des informations, photos et vidéos et participe à des discussions figure par figure avec les autres membres. Aide à créer, améliorer et modifier les informations présentes pour faire de ce site une référence dans le monde du snow!</p>
 
-    <section class="figures d-flex">
-        {# class="d-flex justify-content-around" #}
-        {% for figure in figures %}
-            <div class="card bg-secondary mb-3 m-2" style="max-width: 20rem;">
-                <div class="card-header">{{ figure.nom }}</div>
+    <section class="figures" id="liste_figures">
+        {% for figure in figures.data %}
+            <div class="card bg-secondary col-4 d-inline-block align-top" style="max-width: 20rem; height: 18em">
                 <div class="card-body">
-                    <div class="metadata card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}</div>
+                    {# <div class="metadata card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}</div> #}
                     <div class="content">
-                        <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Card image cap">
-                        {{ figure.description|length > 150 ? figure.description|slice(0, 150) ~ '...' : figure.description   | raw }}
-                        <a href="{{ path('app_figure_show', {'id':figure.id}) }}" class="btn btn-primary">voir la figure</a>
+                        {% if figure.images is empty  %}
+                            <img class="card-img-top" src="https://via.placeholder.com/350x150"  alt="Card image cap">
+                        {% else %}
+                            <img class="card-img-top" src="{{ asset('/uploads/'~ figure.images[0].nom) }}"  alt="Card image cap">
+                        {% endif %}
+                        <a href="{{ path('app_figure_show', {'id':figure.id}) }}" class="btn btn-primary mt-3">{{ figure.nom | length > 20 ? figure | slice(0, 20) ~ '...' : figure.nom }}</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
+    
+        {% set path = 'app_home' %}
+        {% set nbFiguresMax = figures.nbFiguresMax %}
+        {% set limit = figures.limit %}
+        {% include "_partials/_loadMore.html.twig" %}
 
     </section>
     

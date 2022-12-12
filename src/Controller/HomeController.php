@@ -15,13 +15,14 @@ use App\Form\CommentaireType;
 use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
+use App\Repository\CommentaireRepository;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index (FigureRepository $repo): Response
+    public function index (FigureRepository $repo, Request $request): Response
     {
-        $figures = $repo->findAll();
+        $figures = $repo->findFiguresPaginated($request->query->getInt('limit', 4));
 
         return $this->render('website/index.html.twig', [
             'controller_name' => 'HomeController',
@@ -106,14 +107,17 @@ class HomeController extends AbstractController
     }
 
     #[Route('/figure/{id}', name: 'app_figure_show')]
-    public function show(Figure $figure, Request $request,ManagerRegistry $doctrine)
-    {
+    public function show(Figure $figure, CommentaireRepository $repo, Request $request,ManagerRegistry $doctrine)
+    {        
         $commentaire = new Commentaire();
+
         $form = $this->createForm(CommentaireType::class, $commentaire);
 
         $form->handleRequest($request);
 
         $manager = $doctrine->getManager();
+
+        $commentaires = $repo->findCommentairesPaginated($figure->getId(),$request->query->getInt('limit', 1));
 
         if($form->isSubmitted() && $form->isValid()){
 
@@ -126,12 +130,8 @@ class HomeController extends AbstractController
             $commentaire    ->setDateCreation(new \DateTime())
                             ->setFigure($figure)
                             ->setAuteur($auteur);
-                            // ->setAuteur($auteur->getNomUtilisateur());
-
-            // $auteur->addCommentaire($commentaire);
 
             $manager->persist($commentaire);
-            // $manager->persist($auteur);
             $manager->flush();
 
             return $this->redirectToRoute('app_figure_show', [
@@ -141,6 +141,7 @@ class HomeController extends AbstractController
 
         return $this->render('website/show.html.twig', [
             'figure' => $figure,
+            'commentaires' => $commentaires,
             'formCommentaire' =>$form->createView()
         ]);
     }
