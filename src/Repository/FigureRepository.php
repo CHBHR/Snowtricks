@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Figure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,36 @@ class FigureRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findFiguresPaginated(int $limit = 4): array
+    {
+        $limit = abs($limit);
+
+        $result = [];
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('f')
+            ->from('App\Entity\Figure', 'f')
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query);
+        $data = $paginator->getQuery()->getResult();
+
+        //Verif qu'il y a des données
+        if(empty($data)){
+            return $result;
+        }
+
+        //Calcul du nombre total de figures
+        $nbFiguresMax = $paginator->count();
+
+        //On remplt le tableau
+        $result['data'] = $data;
+        $result['nbFiguresMax'] = $nbFiguresMax;
+        $result['limit'] = $limit;
+
+        return $result;
     }
 
 //    /**

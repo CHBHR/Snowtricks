@@ -18,10 +18,13 @@ use App\Entity\Video;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index (FigureRepository $repo): Response
+    #[Route('/{limit}', name: 'app_home')]
+    public function index (FigureRepository $repo, Request $request, int $limit = 4): Response
     {
-        $figures = $repo->findAll();
+        //On cherche le numéro de page dans l'url
+        $page = $request->query->getInt('page', 1);
+
+        $figures = $repo->findFiguresPaginated($limit);
 
         return $this->render('website/index.html.twig', [
             'controller_name' => 'HomeController',
