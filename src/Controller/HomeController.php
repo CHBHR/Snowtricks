@@ -15,8 +15,6 @@ use App\Form\CommentaireType;
 use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
-use App\Form\VideoType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends AbstractController
 {
@@ -118,10 +116,22 @@ class HomeController extends AbstractController
         $manager = $doctrine->getManager();
 
         if($form->isSubmitted() && $form->isValid()){
+
+            /** 
+             * @var \App\Entity\Utilisateur $auteur 
+             * 
+             * */
+            $auteur = $this->getUser();
+
             $commentaire    ->setDateCreation(new \DateTime())
-                            ->setFigure($figure);
-            
+                            ->setFigure($figure)
+                            ->setAuteur($auteur);
+                            // ->setAuteur($auteur->getNomUtilisateur());
+
+            // $auteur->addCommentaire($commentaire);
+
             $manager->persist($commentaire);
+            // $manager->persist($auteur);
             $manager->flush();
 
             return $this->redirectToRoute('app_figure_show', [

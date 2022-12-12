@@ -70,7 +70,7 @@
             <div class="commentaire">
                 <div class="row">
                     <div class="col-3">
-                        <p>nom auteur</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
+                        <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
                     </div>
                     <div class="col">
                         {{commentaire.contenu | raw}}
