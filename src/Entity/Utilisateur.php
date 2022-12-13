@@ -192,12 +192,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setAvatar(?Images $avatar): self
     {
-        // unset the owning side of the relation if necessary
+        // Unset the owning side of the relation if necessary
         if ($avatar === null && $this->avatar !== null) {
             $this->avatar->setUtilisateurId(null);
         }
 
-        // set the owning side of the relation if necessary
+        // Set the owning side of the relation if necessary
         if ($avatar !== null && $avatar->getUtilisateurId() !== $this) {
             $avatar->setUtilisateurId($this);
         }
@@ -251,8 +251,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeCommentaire(Commentaire $commentaire): self
     {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
+        if ($this->commentaires->removeElement($commentaire) === TRUE ) {
+            // Set the owning side to null (unless already changed)
             if ($commentaire->getAuteur() === $this) {
                 $commentaire->setAuteur(null);
             }
