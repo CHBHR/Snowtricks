@@ -63,7 +63,7 @@
 
     <section id="liste_commentaires" class="container">
         <h1>Commentaires :</h1>
-        {% if figure.commentaires is defined %}
+        {% if figure.commentaires |default%}
             <h3>Il y a {{ figure.commentaires | length }} commentaires</h3>
             {% for commentaire in commentaires.data %}
                 <div class="commentaire">

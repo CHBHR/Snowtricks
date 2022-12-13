@@ -5,7 +5,14 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        <link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css"
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -16,51 +23,69 @@
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class=" d-none d-md-block navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
                     <a class="navbar-brand" href="{{ path('app_home') }}">Snowtricks</a>
-                    {% if app.user %}
+                    {# {% if app.user %}
                         <h4 class="nav-item">Bonjour {{ app.user.nomUtilisateur }}</h4>
                         {% if app.user.avatar.nom is defined %}
                             <img src="{{ asset('/uploads/'~ app.user.avatar.nom) }}" alt="" height="25" class="">
                         {% endif %}
-                    {% endif %}
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                    {% endif %} #}
+
                     <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_home') }}">Accueil
+                                <a class="nav-link" href="{{ path('app_home') }}">Home
                                 <span class="visually-hidden">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_figure_create') }}">Crée une figure</a>
+                                <a class="nav-link" href="{{ path('app_home') }}#liste_figures">Tricks</a>
                             </li>
-
+                            {# <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_figure_create') }}">Crée une figure</a>
+                            </li> #}
                             {% if app.user %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path("app_security_deconnexion") }}">Déconnexion</a>
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path("app_security_connexion") }}">Se connecter</a>
+                                    <a class="nav-link" href="{{ path("app_security_connexion") }}">Sign-in</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path("app_security_inscription") }}">Sign-up</a>
                                 </li>
                             {% endif %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                                <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                            </li>
                         </ul>
                     </div>
             </div>
+        </nav>
+
+        {# Bottom navbar #}
+        <nav class="d-block d-md-none navbar fixed-bottom navbar-dark bg-primary navbar-expand">
+            <ul class="navbar-nav justify-content-around">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_home') }}"><i class="bi bi-house-fill"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_home') }}#liste_figures"><i class="bi bi-card-list"></i>
+                    </a>
+                </li>
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path("app_security_deconnexion") }}"><i class="bi bi-x-circle"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path("app_security_connexion") }}"><i class="bi bi-person-circle"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </nav>
 
         {% if app.user and app.user.isVerified == false %}
