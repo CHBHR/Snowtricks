@@ -15,7 +15,6 @@ use App\Form\CommentaireType;
 use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
-use App\Form\FigureDeleteType;
 use App\Repository\CommentaireRepository;
 
 class HomeController extends AbstractController
@@ -45,7 +44,7 @@ class HomeController extends AbstractController
         }
 
         /**
-         * créé le formulaire basé sur les informations de l'entitée
+         * Créé le formulaire basé sur les informations de l'entitée
          * le formulaire à été crée avec la cli et évite la duplication du code 
          */
         $form = $this->createForm(FigureType::class, $figure);
@@ -53,7 +52,7 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            if(!$figure->getId()){
+            if($figure->getId() === FALSE){
                 $figure->setDateCreation(new \DateTime());
                 $figure->setDateModification(new \DateTime());
             }
@@ -73,7 +72,7 @@ class HomeController extends AbstractController
                     $fichier
                 );
 
-                //Création de l'image en db
+                // Création de l'image en db
                 $img = new Images();
                 $img->setNom($fichier);
                 
@@ -157,7 +156,7 @@ class HomeController extends AbstractController
         $figureId = $image->getFigure()->getId();
 
         $nomImg = $image->getNom();
-        //On supprime le fichier
+        // On supprime le fichier
         unlink($this->getParameter('images_directory').'/'.$nomImg);
 
         // On supprime l'entrée en db
@@ -196,7 +195,7 @@ class HomeController extends AbstractController
         // On supprime la figure
         $entityManager = $doctrine->getManager();
 
-        //ajouter la suppréssion des vidéos et des images?
+        // Ajouter la suppréssion des vidéos et des images?
         $entityManager->remove($figure);
         $entityManager->flush();
 

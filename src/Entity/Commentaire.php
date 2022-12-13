@@ -56,7 +56,12 @@ class Commentaire
 
         return $this;
     }
-
+    
+    /**
+     * Permet de récupérer l'objet Figure grâce à la relation
+     *
+     * @return Figure | null
+     */
     public function getFigure(): ?figure
     {
         return $this->figure;
