@@ -1,5 +1,5 @@
 {% if limit < nbCommentairesMax %}
     <div class="container-fluid text-center">
-        <a href="{{ path(path, {'id': figure.id, limit: limit + 1}) }}#liste_commentaires" class="btn btn-success mt-2 self-align-center"><i class="bi bi-arrow-clockwise"></i>Load more</a>
+        <a href="{{ path(path, {'id': figure.id, limit: limit + 10}) }}#liste_commentaires" class="btn btn-success mt-2 self-align-center"><i class="bi bi-arrow-clockwise"></i>Afficher plus de commentaires</a>
     </div>
 {% endif %}

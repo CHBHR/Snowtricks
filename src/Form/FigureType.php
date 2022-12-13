@@ -43,14 +43,6 @@ class FigureType extends AbstractType
                 'label' => 'url de la vidéo',
                 'required' => false
             ])
-
-            // ->add('videos', CollectionType::class, [
-            //     'entry_type' => VideoType::class,
-            //     'allow_add' => true,
-            //     'mapped' => false,
-            //     'allow_delete' => true
-            // ])
-
         ;
     }
 

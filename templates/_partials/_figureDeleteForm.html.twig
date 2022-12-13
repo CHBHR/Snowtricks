@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_figure_delete', {'id': figure.id}) }}" onsubmit="return confirm('Are you sure you want to delete this trick?');" >
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+</form>

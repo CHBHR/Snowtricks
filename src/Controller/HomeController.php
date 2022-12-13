@@ -15,6 +15,7 @@ use App\Form\CommentaireType;
 use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
+use App\Form\FigureDeleteType;
 use App\Repository\CommentaireRepository;
 
 class HomeController extends AbstractController
@@ -22,7 +23,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index (FigureRepository $repo, Request $request): Response
     {
-        $figures = $repo->findFiguresPaginated($request->query->getInt('limit', 4));
+        $figures = $repo->findFiguresPaginated($request->query->getInt('limit', 15));
 
         return $this->render('website/index.html.twig', [
             'controller_name' => 'HomeController',
@@ -99,7 +100,7 @@ class HomeController extends AbstractController
         /**
          * $form étant un object complex, passe le résultat de la fonction createView() à twig pour qu'il puisse le traiter
         */
-        return $this->render('website/create.html.twig', [
+        return $this->render('website/figureEdit.html.twig', [
             'formNewFigure' => $form->createView(),
             'formEditFigure' => $figure->getId() !== null,
             'figure' => $figure,
@@ -117,7 +118,7 @@ class HomeController extends AbstractController
 
         $manager = $doctrine->getManager();
 
-        $commentaires = $repo->findCommentairesPaginated($figure->getId(),$request->query->getInt('limit', 1));
+        $commentaires = $repo->findCommentairesPaginated($figure->getId(),$request->query->getInt('limit', 10));
 
         if($form->isSubmitted() && $form->isValid()){
 
@@ -149,7 +150,7 @@ class HomeController extends AbstractController
     /**
      * Suppression des images
      */
-    #[Route('/figure/{id}/image/delete', name: 'app_figure_image_delete')]
+    #[Route('/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:["DELETE", "GET"])]
     public function deleteImage(Images $image,ManagerRegistry $doctrine)
     {
 
@@ -170,7 +171,7 @@ class HomeController extends AbstractController
     /**
      * Suppression des videos
      */
-    #[Route('/figure/{id}/video/delete', name: 'app_figure_video_delete')]
+    #[Route('/figure/{id}/video/delete', name: 'app_figure_video_delete', methods:["DELETE", "GET"])]
     public function deleteVideo(Video $video,ManagerRegistry $doctrine)
     {
 
