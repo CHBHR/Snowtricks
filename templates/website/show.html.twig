@@ -2,106 +2,180 @@
 
 {% block body %}
 
-    <article>
-        <h2>{{ figure.nom }}</h2>
-        <div class="metadata">
-            Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }} difficulté {{ figure.groupe.titre }}
-        </div>
-        <div class="metadata">
-            Modifié le {{ figure.dateModification | date('d/m/Y') }} à {{ figure.dateModification | date('H:i') }}
+{% if app.user %}
+    <div class="contnainer-fuid d-flex justify-content-end mt-3">
+        <a href="{{ path('app_figure_edit', {'id':figure.id}) }}" class="btn btn-success mr-2"><i class="bi bi-pencil-fill"></i></a>
+        {% include "_partials/_figureDeleteForm.html.twig" %}
+    </div>
+{% endif %}
+
+    <section id="info_figure" class="container mt-2">
+
+        <div class="container d-flex flex-column align-items-center">
+            {% if figure.images  is empty %}
+                <img class="" src="{{ asset('/uploads/default.jpg') }}" alt="Main figure img" style="width:100%;">
+            {% else %}
+                <h2 >{{ figure.nom }}</h2>
+                <img class="" src="{{ asset('/uploads/'~ figure.images[0].nom) }}" alt="Main figure img" style="width:100%;">
+            {% endif %}
         </div>
 
-            <div class="content">
+        <button class="btn btn-success d-block d-md-none mt-2 self-align-center" data-toggle="collapse" data-target="#collapsMedia">Voir les Média</button>
+
+        <div class="collapse d-md-none" id="collapsMedia">
+            <div id="figure_media" class="container-fluid d-flex flex-column mt-2">
 
                 {% if figure.images  is empty %}
-
                     <div class="alert alert-light">
                         <h5>Il n'y a pas d'images associé à la figure</h5>
                     </div>
-        
                 {% else %}
-                    <div class="d-flex justify-content-around">
-                        {% for image in figure.images %}
-                            <img src="{{ asset('/uploads/'~image.nom) }}" alt="" width="250">
-                        {% endfor %}
-                    </div>
+                    {% for image in figure.images %}
+                        <div class="container mt-2 justify-content-center">
+                            <img src="{{ asset('/uploads/'~image.nom) }}" alt="" width="250" class="img-fluid max-width: 100% ">
+                        </div>
+                    {% endfor %}
                 {% endif %}
-        
-            </div>
-
-            <div class="container m-2">
-
-                {{ figure.description | raw }}
-
-            </div>
-
-            <div class="container">
-
+    
                 {% if figure.videos  is empty %}
+                    <div class="alert alert-light">
+                        <h5>Il n'y a pas de vidéo associé à la figure</h5>
+                    </div>
+                {% else %}
+                    {% for videos in figure.videos %}
+                        <div class="container mt-2">
+                            {{videos.url | raw}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+    
+            </div>
+        </div>
+
+        <div id="figure_media" class="d-none d-md-block container-fluid d-flex flex-wrap justify-content-around mt-3">
+
+            {% if figure.images  is empty %}
+                <div class="alert alert-light">
+                    <h5>Il n'y a pas d'images associé à la figure</h5>
+                </div>
+            {% else %}
+                <div class="">
+                    {% for image in figure.images %}
+                        <img src="{{ asset('/uploads/'~image.nom) }}" alt="" width="250">
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if figure.videos  is empty %}
                 <div class="alert alert-light">
                     <h5>Il n'y a pas de vidéo associé à la figure</h5>
                 </div>
-            
-                {% else %}
-                    <div class="d-flex justify-content-around">
-                        {% for videos in figure.videos %}
-                                {{videos.url | raw}}
-                        {% endfor %}
+            {% else %}
+                <div class="">
+                    {% for videos in figure.videos %}
+                            {{videos.url | raw}}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+
+
+        <div id="figure_content" class="mt-3">
+
+                <p class="text-justify"> {{ figure.description | raw }} </p>
+
+        </div>
+
+        <div id="figure_metadata" class="d-flex flex-row md-row justify-content-around mt-3 mb-3">
+                <div class="card bg-light col-3">
+                    <div class="card-body">
+                      <p class="card-text">Ecrit le {{ figure.dateCreation | date('d/m/Y') }} à {{ figure.dateCreation | date('H:i') }}</p>
                     </div>
-                {% endif %}
-            </div>
-        
-            <div class="container">
-                {% if app.user %}
-                <a class="btn btn-primary" href="{{ path('app_figure_edit', {'id':figure.id}) }}">Modifier la figure</a>
-                <a class="btn btn-danger" href="{{ path('app_figure_delete', {'id': figure.id}) }}" onclick="return confirm('Ête vous sur de vouloir supprimer la figure et tous ses composants?')">Supprimer la figure</a>
+                </div>
+    
+                <div class="card bg-light col-3">
+                    <div class="card-body">
+                      <p class="card-text">Difficulté: {{ figure.groupe.titre }}</p>
+                    </div>
+                </div>
+    
+                <div class="card bg-light col-3">
+                    <div class="card-body">
+                      <p class="card-text">Modifié le {{ figure.dateModification | date('d/m/Y') }} à {{ figure.dateModification | date('H:i') }}</p>
+                    </div>
+                </div>
+
+
+        </div>
+
+    </section>
+    
+    <section id="liste_commentaires" class="container">
+
+        <hr/>
+
+        <div class="container">
+            {% if app.user %}
+                {{ form_start(formCommentaire) }}
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-7 col-md-6">
+                        {{ form_row(formCommentaire.contenu, {
+                            'label': ' ',
+                            'attr':{
+                                'placeholder': "Votre commentaire"
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-3 col-md-4">
+                        <button type="submit" class="btn btn-success">Publier mon commentaire</button>
+                        {{ form_end(formCommentaire) }}
+                    </div>
+                </div>
+            {% else %}
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <h3>Connectez vous pour ajouter un commentaire</h3>
+                    <a href="{{ path('app_security_connexion') }}" class="btn btn-primary">
+                        Se connecter
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <hr/>
+
+        <div class="container col-10 col-md-8">
+            <div class="row justify-content-center align-items-center">
+
+                {% if figure.commentaires | default %}
+                    {% for commentaire in commentaires.data %}
+
+                        <div class="mb-3 d-flex flex-row">
+                            <div class="col-2 bg-light d-flex align-items-center justify-content-center">
+                                {% if commentaire.auteur.avatar.nom is defined %}
+                                    <img src="{{ asset('/uploads/'~ commentaire.auteur.avatar.nom) }}" alt="" height="25" class="img-fluid max-width: 100%">
+                                {% else %}
+                                    <i class="bi bi-person-circle"></i>
+                                {% endif %}
+                            </div>
+                            <div class="border border-dark col px-2">
+                                {{commentaire.contenu | raw}}
+                                <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
+                            </div>
+                        </div>
+                    {% endfor %}
+                
+                    {% set path = 'app_figure_show' %}
+                    {% set nbCommentairesMax = commentaires.nbCommentairesMax %}
+                    {% set limit = commentaires.limit %}
+                    {% include "_partials/_loadMoreCommentaires.html.twig" %}
+
+                {% else %}
+                    <h3>Il n'y a aucun commentaires</h3>
                 {% endif %}
             </div>
         </div>
 
-    </article>
-
-    <section id="liste_commentaires" class="container">
-        <h1>Commentaires :</h1>
-        {% if figure.commentaires |default%}
-            <h3>Il y a {{ figure.commentaires | length }} commentaires</h3>
-            {% for commentaire in commentaires.data %}
-                <div class="commentaire">
-                    <div class="row">
-                        <div class="col-3">
-                            <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
-                        </div>
-                        <div class="col">
-                            {{commentaire.contenu | raw}}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            
-            {% set path = 'app_figure_show' %}
-            {% set nbCommentairesMax = commentaires.nbCommentairesMax %}
-            {% set limit = commentaires.limit %}
-            {% include "_partials/_loadMoreCommentaires.html.twig" %}
-
-        {% else %}
-            <h3>Il n'y a aucun commentaires</h3>
-        {% endif %}
-
-        {% if app.user %}
-            {{ form_start(formCommentaire) }}
-            {{ form_row(formCommentaire.contenu, {
-                'attr':{
-                    'placeholder': "Votre commentaire"
-                }
-            }) }}
-            <button type="submit" class="btn btn-success">Publier mon commentaire</button>
-            {{ form_end(formCommentaire) }}
-        {% else %}
-            <h3>Connectez vous pour ajouter un commentaire</h3>
-            <a href="{{ path('app_security_connexion') }}" class="btn btn-primary">
-                Se connecter
-            </a>
-        {% endif %}
     </section>
 
 {% endblock %}

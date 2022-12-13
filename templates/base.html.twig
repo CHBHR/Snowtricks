@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 
+        <link rel="stylesheet" href="../public/css/stylesheet.css"> 
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -26,12 +28,6 @@
         <nav class=" d-none d-md-block navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
                     <a class="navbar-brand" href="{{ path('app_home') }}">Snowtricks</a>
-                    {# {% if app.user %}
-                        <h4 class="nav-item">Bonjour {{ app.user.nomUtilisateur }}</h4>
-                        {% if app.user.avatar.nom is defined %}
-                            <img src="{{ asset('/uploads/'~ app.user.avatar.nom) }}" alt="" height="25" class="">
-                        {% endif %}
-                    {% endif %} #}
 
                     <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav ms-auto">
@@ -43,9 +39,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_home') }}#liste_figures">Tricks</a>
                             </li>
-                            {# <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_figure_create') }}">Crée une figure</a>
-                            </li> #}
+                            </li>
                             {% if app.user %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path("app_security_deconnexion") }}">Déconnexion</a>
