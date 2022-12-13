@@ -2,12 +2,12 @@
 
 {% block body %}
 
-{% if app.user %}
-    <div class="contnainer-fuid d-flex justify-content-end mt-3">
-        <a href="{{ path('app_figure_edit', {'id':figure.id}) }}" class="btn btn-success mr-2"><i class="bi bi-pencil-fill"></i></a>
-        {% include "_partials/_figureDeleteForm.html.twig" %}
-    </div>
-{% endif %}
+    {% if app.user %}
+        <div class="contnainer-fuid d-flex justify-content-end mt-3">
+            <a href="{{ path('app_figure_edit', {'id':figure.id}) }}" class="btn btn-success mr-2"><i class="bi bi-pencil-fill"></i></a>
+            {% include "_partials/_figureDeleteForm.html.twig" %}
+        </div>
+    {% endif %}
 
     <section id="info_figure" class="container mt-2">
 

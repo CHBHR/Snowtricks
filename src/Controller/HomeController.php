@@ -100,7 +100,7 @@ class HomeController extends AbstractController
         /**
          * $form étant un object complex, passe le résultat de la fonction createView() à twig pour qu'il puisse le traiter
         */
-        return $this->render('website/create.html.twig', [
+        return $this->render('website/figureEdit.html.twig', [
             'formNewFigure' => $form->createView(),
             'formEditFigure' => $figure->getId() !== null,
             'figure' => $figure,
@@ -150,7 +150,7 @@ class HomeController extends AbstractController
     /**
      * Suppression des images
      */
-    #[Route('/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:"DELETE")]
+    #[Route('/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:["DELETE", "GET"])]
     public function deleteImage(Images $image,ManagerRegistry $doctrine)
     {
 
@@ -171,7 +171,7 @@ class HomeController extends AbstractController
     /**
      * Suppression des videos
      */
-    #[Route('/figure/{id}/video/delete', name: 'app_figure_video_delete')]
+    #[Route('/figure/{id}/video/delete', name: 'app_figure_video_delete', methods:["DELETE", "GET"])]
     public function deleteVideo(Video $video,ManagerRegistry $doctrine)
     {
 
