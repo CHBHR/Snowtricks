@@ -39,6 +39,23 @@ class UtilisateurRepository extends ServiceEntityRepository
         }
     }
 
+    public function findImageNameByUserId(int $userId)
+    {
+        $names = array('i.nom');
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+        ->select($names, 'u')
+        ->from('App\Entity\Images', 'i')
+        ->join('i.utilisateur', 'u')
+        ->where("u.id = '$userId")
+        ;
+
+        $data = $query->getQuery()->getResult();
+
+        return $data;
+
+    }
+
 //    /**
 //     * @return Utilisateur[] Returns an array of Utilisateur objects
 //     */
