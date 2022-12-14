@@ -28,11 +28,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name:'email',length: 255, unique:true)]
     #[Assert\Email()]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name:'nomUtilisateur',length: 255,unique:true)]
     #[Assert\Length(
         min: 4,
         max: 20,

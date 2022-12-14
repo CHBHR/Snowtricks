@@ -7,9 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FigureRepository::class)]
+#[UniqueEntity(
+    fields:'nom',
+    message:'Ce {{ label }}	est déjà pris'
+    )]
 class Figure
 {
     #[ORM\Id]
@@ -17,13 +22,14 @@ class Figure
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name:'nom',type:'string',length: 255, unique:true)]
     #[Assert\Length(
         min: 2,
         max: 150,
         minMessage: "Le nom de la figure doit être d'au moins {{ limit }} caractères",
         maxMessage: 'Le nom de la figure ne peut pas être plus long que {{ limit }} caractères',
     )]
+    #[Assert\NotBlank()]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
