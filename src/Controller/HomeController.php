@@ -7,16 +7,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Filesystem\Filesystem;
+use App\Repository\CommentaireRepository;
 use App\Repository\FigureRepository;
+
 use App\Entity\Commentaire;
 use App\Entity\Figure;
 use App\Form\CommentaireType;
-use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
-use App\Repository\CommentaireRepository;
-use Symfony\Component\Filesystem\Filesystem;
 
 class HomeController extends AbstractController
 {
@@ -28,80 +27,6 @@ class HomeController extends AbstractController
         return $this->render('website/index.html.twig', [
             'controller_name' => 'HomeController',
             'figures' => $figures,
-        ]);
-    }
-
-    // #[Route('/figure/new', name: 'app_figure_create')]
-    #[Route('/figure/{id}/edit', name: 'app_figure_edit')]
-    public function formFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
-    {
-        $entityManager = $doctrine->getManager();
-
-        if(!$figure){
-            $figure = new Figure();
-        }
-
-        /**
-         * Créé le formulaire basé sur les informations de l'entitée
-         * le formulaire à été crée avec la cli et évite la duplication du code 
-         */
-        $form = $this->createForm(FigureType::class, $figure);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-            if(!$figure->getId()){
-                $figure->setDateCreation(new \DateTime());
-                $figure->setDateModification(new \DateTime());
-            }
-            $figure->setDateModification(new \DateTime());
-
-            /**
-             * Gestion de l'upload des images
-             */
-            $images = $form->get('images')->getData();
-            foreach($images as $image){
-                //Gestion du nom du fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-
-                //Copie du fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-
-                // Création de l'image en db
-                $img = new Images();
-                $img->setNom($fichier);
-                
-                $entityManager->persist($img);
-                $figure->addImage($img);
-            }
-
-            // Upload des videos en db
-            $videos = $form->get('video')->getData();
-
-            if($videos != null){
-                $video = new Video;
-                $video->setUrl($videos);
-                $entityManager->persist($video);
-                $figure->addVideo($video);
-            }
-
-            $entityManager->persist($figure);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId()]);
-        }
-
-        /**
-         * $form étant un object complex, passe le résultat de la fonction createView() à twig pour qu'il puisse le traiter
-        */
-        return $this->render('website/figureEdit.html.twig', [
-            'formNewFigure' => $form->createView(),
-            'formEditFigure' =>$form->createView(),
-            'firmFigure' => $figure->getId() !== null,
-            'figure' => $figure,
         ]);
     }
 

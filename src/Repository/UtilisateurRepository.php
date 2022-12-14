@@ -47,7 +47,7 @@ class UtilisateurRepository extends ServiceEntityRepository
         ->select($names, 'u')
         ->from('App\Entity\Images', 'i')
         ->join('i.utilisateur', 'u')
-        ->where("u.id = '$userId")
+        ->where("u.id = '$userId'")
         ;
 
         $data = $query->getQuery()->getResult();
@@ -55,29 +55,4 @@ class UtilisateurRepository extends ServiceEntityRepository
         return $data;
 
     }
-
-//    /**
-//     * @return Utilisateur[] Returns an array of Utilisateur objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-   public function findOneBySomeField($value): ?Utilisateur
-   {
-       return $this->createQueryBuilder('utilisateur')
-           ->andWhere('utilisateur.email = :val')
-           ->setParameter('val', $value)
-           ->getQuery()
-           ->getOneOrNullResult()
-       ;
-   }
 }

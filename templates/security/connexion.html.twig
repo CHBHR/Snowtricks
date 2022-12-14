@@ -6,7 +6,6 @@
 
     <form action="{{ path('app_security_connexion') }}" method="post">
         <div class="form-group">
-            {# Rech _username et _password #}
             <label>Adresse email</label>
             <input placeholder="Adresse email" required name="_username" type="text" class="form-control">
         </div>
@@ -15,13 +14,13 @@
             <input placeholder="Mot de passe" required name="_password" type="password" class="form-control">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Se connecter</button>
+            <button type="submit" class="btn btn-success mt-2">Se connecter</button>
         </div>
     </form>
     
-    <a href="{{ path('app_security_oublie_pass') }}" class="">J'ai oublier mon mot de passe</a>
+    <a href="{{ path('app_security_oublie_pass') }}" class="mt-3">J'ai oublier mon mot de passe</a>
 
     <h3>Pas encore inscrit?</h3>
-    <a href="{{ path('app_security_inscription') }}" class="btn btn-primary">Inscrivez vous</a>
+    <a href="{{ path('app_security_inscription') }}" class="btn btn-primary mt-3">Inscrivez vous</a>
 
 {% endblock %}

@@ -19,11 +19,12 @@ class InscriptionType extends AbstractType
             ->add('nomUtilisateur')
             ->add('motDePasse', PasswordType::class)
             ->add('confirmerMotDePasse', PasswordType::class)
-            ->add('avatar', FileType::class,['label' => false,
-                                            'multiple' => true,
-                                            'mapped' => false,
-                                            'required' => false
-                                            ])
+            ->add('avatar', FileType::class,[
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
+                ])
         ;
     }
 

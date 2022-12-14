@@ -17,7 +17,6 @@ class TricksController extends AbstractController
     #[Route('/figure/new', name: 'app_figure_create')]
     public function createNewFigure(Request $request, ManagerRegistry $doctrine)
     {
-
         $figure = new Figure();
 
         $form = $this->createForm(FigureType::class, $figure);
@@ -29,23 +28,32 @@ class TricksController extends AbstractController
             $figure->setDateCreation(new \DateTime());
             $figure->setDateModification(new \DateTime());
             
-            /**
-             * Gestion de l'upload des images
-             */
+            // Gestion des images
             $images = $form->get('images')->getData();
-            foreach($images as $image){
-                //Gestion du nom du fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                //Copie du fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                // Création de l'image en db
-                $img = new Images();
-                $img->setNom($fichier);
-                $entityManager->persist($img);
-                $figure->addImage($img);
+
+            if(!$images) {
+                $defaultImage ='default.jpg';
+                $default = new Images();
+                $default->setNom($defaultImage);
+                // $entityManager->persist($figure);
+                //Création de l'image en db
+                $entityManager->persist($default);
+                $figure->addImage($default);
+            } else {
+                foreach($images as $image){
+                    //Gestion du nom du fichier
+                    $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                    //Copie du fichier dans le dossier uploads
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $fichier
+                    );
+                    // Création de l'image en db
+                    $img = new Images();
+                    $img->setNom($fichier);
+                    $entityManager->persist($img);
+                    $figure->addImage($img);
+                }
             }
 
             // Upload des videos en db
@@ -67,5 +75,52 @@ class TricksController extends AbstractController
             'formNewFigure' => $form->createView(),
             'figure' => $figure
         ]);
-    }    
+    }
+
+    #[Route('/figure/edit/{id}', name: 'app_figure_edit')]
+    public function editNewFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
+    {
+        $entityManager = $doctrine->getManager();
+        $form = $this->createForm(FigureType::class, $figure);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            dd($form);
+
+            $figure->setDateModification(new \DateTime());
+            // Gestion des images
+            $images = $form->get('images')->getData();
+            foreach($images as $image){
+                // Gestion du nom du fichier
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                // Création de l'image en db
+                $img = new Images();
+                $img->setNom($fichier);
+                $entityManager->persist($img);
+                $figure->addImage($img);
+            }
+
+            // Upload des videos en db
+            $videos = $form->get('video')->getData();
+            if($videos != null){
+                $video = new Video;
+                $video->setUrl($videos);
+                $entityManager->persist($video);
+                $figure->addVideo($video);
+            }
+            $entityManager->persist($figure);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId()]);
+        }
+
+        return $this->render('website/figureEdit.html.twig', [
+            'formEditFigure' =>$form->createView(),
+            'figure' => $figure
+        ]);
+    }
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     message: "L'email est déjà utilisé"
 )]
 #[UniqueEntity(
-    fields: ["nomUtilisateur"],
+    fields: ["nom_utilisateur"],
     message: "Ce nom d'utilisateur est déjà pris"
 )]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
@@ -32,7 +32,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email()]
     private ?string $email = null;
 
-    #[ORM\Column(name:'nomUtilisateur',length: 255,unique:true)]
+    #[ORM\Column(name:'nom_utilisateur',length: 255,unique:true)]
     #[Assert\Length(
         min: 4,
         max: 20,
