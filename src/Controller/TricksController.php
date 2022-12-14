@@ -17,7 +17,6 @@ class TricksController extends AbstractController
     #[Route('/figure/new', name: 'app_figure_create')]
     public function createNewFigure(Request $request, ManagerRegistry $doctrine)
     {
-
         $figure = new Figure();
 
         $form = $this->createForm(FigureType::class, $figure);
@@ -29,23 +28,32 @@ class TricksController extends AbstractController
             $figure->setDateCreation(new \DateTime());
             $figure->setDateModification(new \DateTime());
             
-            /**
-             * Gestion de l'upload des images
-             */
+            // Gestion des images
             $images = $form->get('images')->getData();
-            foreach($images as $image){
-                //Gestion du nom du fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                //Copie du fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                // Création de l'image en db
-                $img = new Images();
-                $img->setNom($fichier);
-                $entityManager->persist($img);
-                $figure->addImage($img);
+
+            if(!$images) {
+                $defaultImage ='default.jpg';
+                $default = new Images();
+                $default->setNom($defaultImage);
+                // $entityManager->persist($figure);
+                //Création de l'image en db
+                $entityManager->persist($default);
+                $figure->addImage($default);
+            } else {
+                foreach($images as $image){
+                    //Gestion du nom du fichier
+                    $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                    //Copie du fichier dans le dossier uploads
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $fichier
+                    );
+                    // Création de l'image en db
+                    $img = new Images();
+                    $img->setNom($fichier);
+                    $entityManager->persist($img);
+                    $figure->addImage($img);
+                }
             }
 
             // Upload des videos en db

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
 
 use App\Repository\FigureRepository;
 use App\Entity\Commentaire;
@@ -16,7 +17,6 @@ use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
 use App\Repository\CommentaireRepository;
-use Symfony\Component\Filesystem\Filesystem;
 
 class HomeController extends AbstractController
 {
