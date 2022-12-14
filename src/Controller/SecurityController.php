@@ -181,15 +181,6 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
-    #[Route('/connexion', name: 'app_security_connexion')]
-    public function connexion()
-    {
-        return $this->render('security/connexion.html.twig');
-    }
-
-    /**
-     * Le composant de sécurité se charge de la déconnexion
-     */
     #[Route('/deconnexion', name:"app_security_deconnexion")]
     public function deconnexion() {}
 
