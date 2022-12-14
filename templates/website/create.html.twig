@@ -19,6 +19,7 @@
 
     {# Affichage des images lors de la modification #}
     {% if formEditFigure %}
+    {{ form_start(formEditFigure) }}
 
         <h3>Images</h3>
 
@@ -78,5 +79,6 @@
     </button>
 
     {{ form_end(formNewFigure) }}
+    {{ form_end(formEditFigure) }}
 
 {% endblock %}

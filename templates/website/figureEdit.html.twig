@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme formNewFigure 'bootstrap_5_layout.html.twig' %}
+{% form_theme formEditFigure 'bootstrap_5_layout.html.twig' %}
 
 {% block body %}
 
-{{ form_start(formNewFigure) }}
+{{ form_start(formEditFigure) }}
 
     <div class="contnainer-fuid d-flex justify-content-end mt-3">
         {# <a href="{{ path('app_figure_change_front_img', {'id':figure.id}) }}" class="btn btn-success mr-2"><i class="bi bi-pencil-fill"></i></a> #}
@@ -17,7 +17,7 @@
             {% if figure.images  is empty %}
                 <img class="" src="{{ asset('/uploads/default.jpg') }}" alt="Main figure img" style="width:100%;">
             {% else %}
-                <h2>{{ form_row(formNewFigure.nom, {'label':'Nom de la figure', 'attr':{'placeholder': figure.nom}}) }}</h2>
+                <h2>{{ form_row(formEditFigure.nom, {'label':'Nom de la figure', 'attr':{'placeholder': figure.nom}}) }}</h2>
                 <img class="" src="{{ asset('/uploads/'~ figure.images[0].nom) }}" alt="Main figure img" style="width:100%;">
             {% endif %}
         </div>
@@ -87,21 +87,21 @@
         </div>
 
         <div class="mt-3">
-            {{ form_row(formNewFigure.images, {'label': "Ajouter des photos"}) }}
+            {{ form_row(formEditFigure.images, {'label': "Ajouter des photos"}) }}
         </div>
 
         <div class="mt-3">
-            {{ form_row(formNewFigure.video, {'label': "Ajouter des vidéos avec le lien 'embedded' de Youtube"}) }}
+            {{ form_row(formEditFigure.video, {'label': "Ajouter des vidéos avec le lien 'embedded' de Youtube"}) }}
         </div>
 
         <div id="figure_content" class="mt-3">
 
-            <p class="text-justify"> {{ form_row(formNewFigure.description, {'attr':{'placeholder': "description de la figure", 'style': 'height: 400px' }}) }} </p>
+            <p class="text-justify"> {{ form_row(formEditFigure.description, {'attr':{'placeholder': "description de la figure", 'style': 'height: 400px' }}) }} </p>
 
         </div>
 
         <div>
-            {{ form_row(formNewFigure.groupe, {'label': 'Difficulté'}) }}
+            {{ form_row(formEditFigure.groupe, {'label': 'Difficulté'}) }}
         </div>
 
         <div class="contnainer-fuid d-flex justify-content-end">
@@ -111,8 +111,6 @@
 
     </section>
 
-    {{ form_start(formNewFigure) }}
-
-    {{ form_end(formNewFigure) }}
+    {{ form_end(formEditFigure) }}
 
 {% endblock %}

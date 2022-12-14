@@ -16,7 +16,6 @@ use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
 use App\Repository\CommentaireRepository;
-use App\Repository\ImagesRepository;
 use Symfony\Component\Filesystem\Filesystem;
 
 class HomeController extends AbstractController
@@ -32,10 +31,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    /**
-     * L'ordre de déclaration des routes permet de ne pas avoir d'erreur lors de l'appel si plusieurs routes ont des noms similaires
-     */
-    #[Route('/figure/new', name: 'app_figure_create')]
+    // #[Route('/figure/new', name: 'app_figure_create')]
     #[Route('/figure/{id}/edit', name: 'app_figure_edit')]
     public function formFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
     {
@@ -54,7 +50,7 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            if($figure->getId() === FALSE){
+            if(!$figure->getId()){
                 $figure->setDateCreation(new \DateTime());
                 $figure->setDateModification(new \DateTime());
             }
@@ -103,12 +99,13 @@ class HomeController extends AbstractController
         */
         return $this->render('website/figureEdit.html.twig', [
             'formNewFigure' => $form->createView(),
-            'formEditFigure' => $figure->getId() !== null,
+            'formEditFigure' =>$form->createView(),
+            'firmFigure' => $figure->getId() !== null,
             'figure' => $figure,
         ]);
     }
 
-    #[Route('/figure/{id}', name: 'app_figure_show')]
+    #[Route('/figure/show/{id}', name: 'app_figure_show')]
     public function show(Figure $figure, CommentaireRepository $repo, Request $request,ManagerRegistry $doctrine)
     {        
         $commentaire = new Commentaire();

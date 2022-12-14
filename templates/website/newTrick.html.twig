@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formNewFigure 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+
+{{ form_start(formNewFigure) }}
+
+        <div class="mt-3">
+            <h2>{{ form_row(formNewFigure.nom) }}</h2>
+        </div>
+
+        <div class="mt-3">
+            {{ form_row(formNewFigure.images, {'label': "Ajouter des photos"}) }}
+        </div>
+
+        <div class="mt-3">
+            {{ form_row(formNewFigure.video, {'label': "Ajouter des vidéos avec le lien 'embedded' de Youtube"}) }}
+        </div>
+
+        <div id="figure_content" class="mt-3">
+
+            <p class="text-justify"> {{ form_row(formNewFigure.description, {'attr':{'placeholder': "description de la figure", 'style': 'height: 400px' }}) }} </p>
+
+        </div>
+
+        <div>
+            {{ form_row(formNewFigure.groupe, {'label': 'Difficulté'}) }}
+        </div>
+
+        <div class="contnainer-fuid d-flex justify-content-end">
+            <button type="submit" class="btn btn-success mr-5">Créer ma figure</button>
+        </div>
+
+    </section>
+
+    {{ form_start(formNewFigure) }}
+
+    {{ form_end(formNewFigure) }}
+
+{% endblock %}
