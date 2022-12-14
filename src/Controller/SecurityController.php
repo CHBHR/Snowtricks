@@ -27,6 +27,7 @@ class SecurityController extends AbstractController
     public function inscription(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $encoder, SendMailService $sendMail, JWTService $jwt)
     {
         $utilisateur = new Utilisateur();
+        $defaultAvatar = 'defaultAvatar.jpg';
 
         $entityManager = $manager->getManager();
 
@@ -42,14 +43,22 @@ class SecurityController extends AbstractController
             $utilisateur->setMotDePasse($hash);
             $utilisateur->setDateInscription(new \DateTime());
             $utilisateur->setResetToken('');
+            
+            if(!$form->get('avatar')->getData()){
+                $default = new Images();
+                $default->setNom($defaultAvatar);
+                $entityManager->persist($utilisateur);
 
-            $entityManager->persist($utilisateur);
-
-             /**
-             * Gestion de l'upload des images
-             */
-            $avatars = $form->get('avatar')->getData();
-            foreach($avatars as $avatar){
+                //Création de l'image en db
+    
+                $entityManager->persist($default);
+                $utilisateur->setAvatar($default);
+            }else{
+                /**
+                 * Gestion de l'upload des images
+                 */
+                $avatar = $form->get('avatar')->getData();
+                
                 //Gestion du nom du fichier
                 $fichier = md5(uniqid()).'.'.$avatar->guessExtension();
 
@@ -58,16 +67,15 @@ class SecurityController extends AbstractController
                     $this->getParameter('images_directory'),
                     $fichier
                 );
-
-                //Création de l'image en db
-                
                 $avat = new Images();
                 $avat->setNom($fichier);
 
+                $entityManager->persist($utilisateur);
+
                 $entityManager->persist($avat);
                 $utilisateur->setAvatar($avat);
-
             }
+
             $entityManager->flush();
 
             //Génération du JWT utilisateur

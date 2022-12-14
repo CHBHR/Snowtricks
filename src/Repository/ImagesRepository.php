@@ -39,6 +39,23 @@ class ImagesRepository extends ServiceEntityRepository
         }
     }
 
+    public function findNameByFigureId(int $figureId)
+    {
+        $names = array('i.nom');
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+        ->select($names, 'f')
+        ->from('App\Entity\Images', 'i')
+        ->join('i.figure', 'f')
+        ->where("f.id = '$figureId'")
+        ;
+
+        $data = $query->getQuery()->getResult();
+
+        return $data;
+
+    }
+
 //    /**
 //     * @return Images[] Returns an array of Images objects
 //     */

@@ -16,6 +16,8 @@ use App\Form\FigureType;
 use App\Entity\Images;
 use App\Entity\Video;
 use App\Repository\CommentaireRepository;
+use App\Repository\ImagesRepository;
+use Symfony\Component\Filesystem\Filesystem;
 
 class HomeController extends AbstractController
 {
@@ -156,7 +158,7 @@ class HomeController extends AbstractController
         $figureId = $image->getFigure()->getId();
 
         $nomImg = $image->getNom();
-        // On supprime le fichier
+        // On unlink le fichier
         unlink($this->getParameter('images_directory').'/'.$nomImg);
 
         // On supprime l'entrée en db
@@ -184,18 +186,26 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
     }
 
-        /**
-     * Suppression des images
+    /**
+     * Suppression de la figure
      */
     #[Route('/figure/{id}/delete', name: 'app_figure_delete')]
-    public function deleteFigure(Figure $figure,ManagerRegistry $doctrine)
+    public function deleteFigure(Figure $figure, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();
 
-        // On supprime la figure
-        $entityManager = $doctrine->getManager();
+        // Supression des images dans le file
+        // On cherche d'abord à récupérer les noms des images
+        $figureId = $figure->getId();
+        $repo = $entityManager->getRepository(Images::class);
+        $imagesNom = $repo->findNameByFigureId($figureId);
 
-        // Ajouter la suppréssion des vidéos et des images?
+        $filesystem = new Filesystem();
+
+        foreach($imagesNom as $nomImage){
+            $filesystem->remove($this->getParameter('images_directory').'/'.$nomImage['nom']);
+        }
+
         $entityManager->remove($figure);
         $entityManager->flush();
 
