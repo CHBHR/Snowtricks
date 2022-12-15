@@ -50,6 +50,7 @@ class Figure
     private ?Groupe $groupe = null;
 
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Commentaire::class, orphanRemoval: true)]
+    #[ORM\OrderBy(["dateCreation"=>"DESC"])]
     private Collection $commentaires;
 
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Images::class, cascade:["remove"])]

@@ -68,7 +68,8 @@ class TricksController extends AbstractController
             $entityManager->persist($figure);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId()]);
+            $this->addFlash('success', 'Votre figure à bien été enregistrée');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('website/newTrick.html.twig', [
@@ -115,7 +116,8 @@ class TricksController extends AbstractController
             $entityManager->persist($figure);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId()]);
+            $this->addFlash('success', 'Votre figure à bien été enregistrée');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('website/figureEdit.html.twig', [

@@ -26,7 +26,7 @@ class HomeController extends AbstractController
 
         return $this->render('website/index.html.twig', [
             'controller_name' => 'HomeController',
-            'figures' => $figures,
+            'figures' => $figures
         ]);
     }
 
@@ -45,10 +45,6 @@ class HomeController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            /** 
-             * @var \App\Entity\Utilisateur $auteur 
-             * 
-             * */
             $auteur = $this->getUser();
 
             $commentaire    ->setDateCreation(new \DateTime())
