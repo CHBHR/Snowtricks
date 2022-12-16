@@ -82,11 +82,11 @@ class TricksController extends AbstractController
     public function editNewFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();
+        
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            dd($form);
 
             $figure->setDateModification(new \DateTime());
             // Gestion des images
@@ -113,6 +113,7 @@ class TricksController extends AbstractController
                 $entityManager->persist($video);
                 $figure->addVideo($video);
             }
+            
             $entityManager->persist($figure);
             $entityManager->flush();
 

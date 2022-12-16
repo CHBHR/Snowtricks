@@ -53,7 +53,6 @@ class FigureType extends AbstractType
                 'label' => 'url de la vidéo',
                 'required' => false
             ])
-            ->getForm();
         ;
     }
 
