@@ -22,7 +22,7 @@ class Figure
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name:'nom',type:'string',length: 255, unique:true)]
+    #[ORM\Column(name:'nom',type:'string',length: 100, unique:true)]
     #[Assert\Length(
         min: 2,
         max: 150,

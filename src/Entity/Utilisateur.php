@@ -28,11 +28,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name:'email',length: 255, unique:true)]
+    #[ORM\Column(name:'email',length: 50, unique:true)]
     #[Assert\Email()]
     private ?string $email = null;
 
-    #[ORM\Column(name:'nom_utilisateur',length: 255,unique:true)]
+    #[ORM\Column(name:'nom_utilisateur',length: 20,unique:true)]
     #[Assert\Length(
         min: 4,
         max: 20,
@@ -44,7 +44,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInscription = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     #[Assert\Length(
         min: 8,
         minMessage: "Le mot de passe doit être d'au moins {{ limit }} caractères",
