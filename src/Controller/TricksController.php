@@ -14,7 +14,7 @@ use App\Entity\Video;
 
 class TricksController extends AbstractController
 {
-    #[Route('/figure/new', name: 'app_figure_create')]
+    #[Route('/snowtricks/figure/new', name: 'app_figure_create')]
     public function createNewFigure(Request $request, ManagerRegistry $doctrine)
     {
         $figure = new Figure();
@@ -72,13 +72,13 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('website/newTrick.html.twig', [
+        return $this->render('website/figureCreate.html.twig', [
             'formNewFigure' => $form->createView(),
             'figure' => $figure
         ]);
     }
 
-    #[Route('/figure/edit/{id}', name: 'app_figure_edit')]
+    #[Route('/snowtricks/figure/edit/{id}', name: 'app_figure_edit')]
     public function editNewFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();

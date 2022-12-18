@@ -23,7 +23,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/inscription', name: 'app_security_inscription')]
+    #[Route('/snowtricks/inscription', name: 'app_security_inscription')]
     public function inscription(Request $request, ManagerRegistry $manager, UserPasswordHasherInterface $encoder, SendMailService $sendMail, JWTService $jwt)
     {
         $utilisateur = new Utilisateur();
@@ -106,6 +106,7 @@ class SecurityController extends AbstractController
                 ]
             );
 
+            $this->addFlash('success', 'Votre inscription a bien été validée');
             return $this->redirectToRoute('app_security_connexion');
         }
 
@@ -114,7 +115,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/verification/{token}', name:'app_verify_user')]
+    #[Route('/snowtricks/verification/{token}', name:'app_verify_user')]
     public function verifyUser($token, JWTService $jwt, UtilisateurRepository $utilisateurRepository, EntityManagerInterface $em): Response
     {
         //Vérif si le token est valide, n'a pas exp et n'a pas été modif.
@@ -140,7 +141,7 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
-    #[Route('/resendverif', name:'app_resend_verif')]
+    #[Route('/snowtricks/resendverif', name:'app_resend_verif')]
     public function resendVerification(JWTService $jwt, SendMailService $sendMail, UtilisateurRepository $utilisateur): Response
     {
         $utilisateur = $this->getUser();
@@ -181,7 +182,7 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
-    #[Route('/deconnexion', name:"app_security_deconnexion")]
+    #[Route('/snowtricks/deconnexion', name:"app_security_deconnexion")]
     public function deconnexion() {}
 
     /**
@@ -237,7 +238,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/oubli-pass/{token}', name:'app_security_reset_pass')]
+    #[Route('/snowtricks/oubli-pass/{token}', name:'app_security_reset_pass')]
     public function resetPass(string $token, Request $request, UtilisateurRepository $utilisateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passworkHasher): Response
     {
         //Vérif. si token dans la db

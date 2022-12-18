@@ -20,6 +20,7 @@ use App\Entity\Video;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
+    #[Route('/snowtricks', name: 'app_home')]
     public function index (FigureRepository $repo, Request $request): Response
     {
         $figures = $repo->findFiguresPaginated($request->query->getInt('limit', 15));
@@ -30,7 +31,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/figure/show/{id}', name: 'app_figure_show')]
+    #[Route('/snowtricks/figure/show/{id}', name: 'app_figure_show')]
     public function show(Figure $figure, CommentaireRepository $repo, Request $request,ManagerRegistry $doctrine)
     {        
         $commentaire = new Commentaire();
@@ -69,7 +70,7 @@ class HomeController extends AbstractController
     /**
      * Suppression des images
      */
-    #[Route('/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:["DELETE", "GET"])]
+    #[Route('/snowtricks/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:["DELETE", "GET"])]
     public function deleteImage(Images $image,ManagerRegistry $doctrine)
     {
 
@@ -90,7 +91,7 @@ class HomeController extends AbstractController
     /**
      * Suppression des videos
      */
-    #[Route('/figure/{id}/video/delete', name: 'app_figure_video_delete', methods:["DELETE", "GET"])]
+    #[Route('/snowtricks/figure/{id}/video/delete', name: 'app_figure_video_delete', methods:["DELETE", "GET"])]
     public function deleteVideo(Video $video,ManagerRegistry $doctrine)
     {
 
@@ -107,7 +108,7 @@ class HomeController extends AbstractController
     /**
      * Suppression de la figure
      */
-    #[Route('/figure/{id}/delete', name: 'app_figure_delete')]
+    #[Route('/snowtricks/figure/{id}/delete', name: 'app_figure_delete')]
     public function deleteFigure(Figure $figure, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();
