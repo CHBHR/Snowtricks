@@ -5,7 +5,9 @@ Une fois inscrit et connecté sur le site vous pouvez ajouter, modifier ou suppr
 
 ### Versions
 
-PHP 7.2
+PHP 8.1.0
+
+Symfony 6.1
 
 MySQL 5.7.8 
 
