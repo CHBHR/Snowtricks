@@ -39,7 +39,7 @@ Une fois que la base de donnée est créé, mapper et à jour, vous pouvez crée
 
 ## Resources 
 
-Vous pourrez trouver les diagrammes du projet ici : 
+Vous pourrez trouver les diagrammes du projet dans le dossier "ressources"
 
 La qualité du code est évaluée grace à [Codacy](https://app.codacy.com/project/CHBHR/SnowTricks/dashboard)
 
