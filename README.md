@@ -9,7 +9,7 @@ PHP 8.1.0
 
 Symfony 6.1
 
-MySQL 5.7.8 
+MySQL 5.7.36
 
 ### Installer le projet
 
