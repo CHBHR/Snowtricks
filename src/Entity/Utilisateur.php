@@ -69,7 +69,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $resetToken = null;
 
-    #[ORM\OneToMany(mappedBy: "auteur",targetEntity: Commentaire::class,cascade:["remove"])]
+    #[ORM\OneToMany(mappedBy: "auteur",targetEntity: Commentaire::class, cascade:["remove"])]
     private Collection $commentaires;
 
     public function __construct()
