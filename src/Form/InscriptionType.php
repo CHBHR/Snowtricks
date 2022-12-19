@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class InscriptionType extends AbstractType
 {
@@ -16,7 +17,9 @@ class InscriptionType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('nomUtilisateur')
+            ->add('nomUtilisateur', TextType::class, [
+                'mapped' => true
+            ])
             ->add('motDePasse', PasswordType::class)
             ->add('confirmerMotDePasse', PasswordType::class)
             ->add('avatar', FileType::class,[

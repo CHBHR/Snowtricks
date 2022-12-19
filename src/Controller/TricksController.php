@@ -14,7 +14,7 @@ use App\Entity\Video;
 
 class TricksController extends AbstractController
 {
-    #[Route('/figure/new', name: 'app_figure_create')]
+    #[Route('/snowtricks/figure/new', name: 'app_figure_create')]
     public function createNewFigure(Request $request, ManagerRegistry $doctrine)
     {
         $figure = new Figure();
@@ -68,24 +68,25 @@ class TricksController extends AbstractController
             $entityManager->persist($figure);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId()]);
+            $this->addFlash('success', 'Votre figure à bien été enregistrée');
+            return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('website/newTrick.html.twig', [
+        return $this->render('website/figureCreate.html.twig', [
             'formNewFigure' => $form->createView(),
             'figure' => $figure
         ]);
     }
 
-    #[Route('/figure/edit/{id}', name: 'app_figure_edit')]
+    #[Route('/snowtricks/figure/edit/{id}', name: 'app_figure_edit')]
     public function editNewFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();
+        
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            dd($form);
 
             $figure->setDateModification(new \DateTime());
             // Gestion des images
@@ -112,10 +113,12 @@ class TricksController extends AbstractController
                 $entityManager->persist($video);
                 $figure->addVideo($video);
             }
+            
             $entityManager->persist($figure);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId()]);
+            $this->addFlash('success', 'Votre figure à bien été enregistrée');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('website/figureEdit.html.twig', [

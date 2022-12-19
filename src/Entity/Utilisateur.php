@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     message: "L'email est déjà utilisé"
 )]
 #[UniqueEntity(
-    fields: ["nom_utilisateur"],
+    fields: ["nomUtilisateur"],
     message: "Ce nom d'utilisateur est déjà pris"
 )]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
@@ -28,11 +28,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name:'email',length: 255, unique:true)]
+    #[ORM\Column(name:'email',length: 50, unique:true)]
     #[Assert\Email()]
     private ?string $email = null;
 
-    #[ORM\Column(name:'nom_utilisateur',length: 255,unique:true)]
+    #[ORM\Column(name:'nom_utilisateur',length: 20, unique:true)]
     #[Assert\Length(
         min: 4,
         max: 20,
@@ -44,11 +44,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInscription = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     #[Assert\Length(
         min: 8,
         minMessage: "Le mot de passe doit être d'au moins {{ limit }} caractères",
     )]
+
     #[Assert\EqualTo(
         propertyPath:"confirmerMotDePasse")]
     private ?string $motDePasse = null;
@@ -66,9 +67,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isVerified = false;
 
     #[ORM\Column(length: 100)]
-    private ?string $resetToken;
+    private ?string $resetToken = null;
 
-    #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Commentaire::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: "auteur",targetEntity: Commentaire::class,cascade:["remove"])]
     private Collection $commentaires;
 
     public function __construct()

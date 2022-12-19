@@ -19,6 +19,7 @@ security:
             form_login:
                 login_path: app_security_connexion
                 check_path: app_security_connexion
+                default_target_path: app_home
 
             logout:
                 path: app_security_deconnexion
