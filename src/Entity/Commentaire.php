@@ -24,8 +24,7 @@ class Commentaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Figure $figure = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    #[ORM\JoinColumn(nullable: false, name:"auteur", referencedColumnName:"nom_utilisateur")]
+    #[ORM\ManyToOne(inversedBy: 'commentaire')]
     private ?Utilisateur $auteur = null;
 
     public function getId(): ?int

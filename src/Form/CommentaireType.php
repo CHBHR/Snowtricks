@@ -14,9 +14,6 @@ class CommentaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        /**
-         * ajouter le nom de l'auteur lié avec l'entitée
-         */
             ->add('contenu', TextareaType::class,[
                 'constraints' => [new NotBlank()]
             ])
