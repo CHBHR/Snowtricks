@@ -36,6 +36,7 @@ Une fois que la base de donnée est créé, mapper et à jour, vous pouvez crée
 
 #### Mailer
 
+Le site Mailtrap a été utilisé sur le port local pour tester l'envoie des mails.
 
 ## Resources 
 
