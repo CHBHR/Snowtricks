@@ -6,13 +6,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem as FilesystemFilesystem;
 
 use App\Form\FigureType;
 use App\Entity\Figure;
 use App\Entity\Images;
 use App\Entity\Video;
 
-class TricksController extends AbstractController
+class FigureController extends AbstractController
 {
     #[Route('/snowtricks/figure/new', name: 'app_figure_create')]
     public function createNewFigure(Request $request, ManagerRegistry $doctrine)
@@ -125,5 +126,70 @@ class TricksController extends AbstractController
             'formEditFigure' =>$form->createView(),
             'figure' => $figure
         ]);
+    }
+
+    /**
+     * Suppression des images
+     */
+    #[Route('/snowtricks/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:["DELETE", "GET"])]
+    public function deleteImage(Images $image,ManagerRegistry $doctrine)
+    {
+
+        $figureId = $image->getFigure()->getId();
+
+        $nomImg = $image->getNom();
+        // On unlink le fichier
+        unlink($this->getParameter('images_directory').'/'.$nomImg);
+
+        // On supprime l'entrée en db
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($image);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
+    }
+
+    /**
+     * Suppression des videos
+     */
+    #[Route('/snowtricks/figure/{id}/video/delete', name: 'app_figure_video_delete', methods:["DELETE", "GET"])]
+    public function deleteVideo(Video $video,ManagerRegistry $doctrine)
+    {
+
+        $figureId = $video->getFigure()->getId();
+
+        // On supprime l'entrée en db
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($video);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_figure_edit', ['id' => $figureId]);
+    }
+
+    /**
+     * Suppression de la figure
+     */
+    #[Route('/snowtricks/figure/{id}/delete', name: 'app_figure_delete')]
+    public function deleteFigure(Figure $figure, ManagerRegistry $doctrine)
+    {
+        $entityManager = $doctrine->getManager();
+
+        // Supression des images dans le file
+        // On cherche d'abord à récupérer les noms des images
+        $figureId = $figure->getId();
+        $repo = $entityManager->getRepository(Images::class);
+        $imagesNom = $repo->findNameByFigureId($figureId);
+
+        $filesystem = new FilesystemFilesystem();
+
+        foreach($imagesNom as $nomImage){
+            $filesystem->remove($this->getParameter('images_directory').'/'.$nomImage['nom']);
+        }
+
+        $entityManager->remove($figure);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_home');
+
     }
 }

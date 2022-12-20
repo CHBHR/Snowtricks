@@ -159,8 +159,11 @@
                                 {% endif %}
                             </div>
                             <div class="border border-dark col px-2">
-                                {{commentaire.contenu | raw}}
-                                <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p> (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
+                                <p>{{commentaire.contenu | raw}}</p>
+                                {# <p>Auteur: {{commentaire.auteur.nomUtilisateur}}</p>  #}
+                                <small>Auteur: {{commentaire.auteur.nomUtilisateur}}</small>
+                                <br>
+                                (<small>{{commentaire.dateCreation | date('d/m/Y à H:i')}}</small>)
                             </div>
                         </div>
                     {% endfor %}
