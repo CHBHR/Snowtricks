@@ -50,6 +50,7 @@ class CommentaireRepository extends ServiceEntityRepository
             ->from('App\Entity\Commentaire', 'c')
             ->join('c.figure', 'f')
             ->where("f.id = '$figureId'")
+            ->orderBy('c.dateCreation', 'DESC')
             ->setMaxResults($limit);
 
         $paginator = new Paginator($query);
