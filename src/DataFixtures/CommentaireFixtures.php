@@ -90,6 +90,17 @@ class CommentaireFixtures extends Fixture implements DependentFixtureInterface
         $comment11->setAuteur($this->getReference('user3'));
         $manager->persist($comment11);
 
+        for($i = 0; $i<=10; $i++)
+        {
+            $comment = new Commentaire();
+            $comment->setContenu($i." 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc iaculis congue fringilla. Sed pellentesque nisi ipsum, vel lacinia ipsum vehicula ut. Cras bibendum sagittis tellus in malesuada. In nec lectus rutrum, semper nulla quis, tempus lectus. Maecenas sit amet fringilla lorem, in vestibulum libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nunc felis, sodales ac lacinia et, euismod et ipsum.");
+            $comment->setDateCreation($date);
+            $comment->setFigure($this->getReference('figure1'));
+            $comment->setAuteur($this->getReference('user1'));
+            $manager->persist($comment);
+        }
+
         $manager->flush();
     }
 
