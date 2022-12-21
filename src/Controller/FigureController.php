@@ -36,7 +36,6 @@ class FigureController extends AbstractController
                 $defaultImage ='default.jpg';
                 $default = new Images();
                 $default->setNom($defaultImage);
-                // $entityManager->persist($figure);
                 //Création de l'image en db
                 $entityManager->persist($default);
                 $figure->addImage($default);
