@@ -35,7 +35,7 @@
                                 {% endif %}
                             </div>
                             <div class="d-flex justify-content-around mt-3">
-                                <a href="{{ path('app_figure_show', {'id':figure.id}) }}" class="btn btn-primary">{{ figure.nom | length > 9 ? figure.nom | slice(0, 8) ~ '...' : figure.nom }}</a>
+                                <a href="{{ path('app_figure_show', {'nom':figure.nom}) }}" class="btn btn-primary">{{ figure.nom | length > 9 ? figure.nom | slice(0, 8) ~ '...' : figure.nom }}</a>
                                 {% if app.user %}
                                     <a href="{{ path('app_figure_edit', {'id':figure.id}) }}" class="btn btn-success"><i class="bi bi-pencil-fill"></i></a>
                                     

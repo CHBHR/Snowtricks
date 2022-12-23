@@ -31,7 +31,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/snowtricks/show/{id}', name: 'app_figure_show')]
+    #[Route('/snowtricks/show/{nom}', name: 'app_figure_show')]
     public function show(Figure $figure, CommentaireRepository $repo, Request $request,ManagerRegistry $doctrine)
     {        
         $commentaire = new Commentaire();
