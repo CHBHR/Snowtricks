@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Figure;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager as PersistenceObjectManager;
@@ -112,8 +111,7 @@ class FigureFixtures extends Fixture implements DependentFixtureInterface
         $figure11->setNom('Lorem ipsum dolor sit amet');
         $manager->persist($figure11);
 
-        for($i = 0; $i<=10; $i++)
-        {
+        for ($i = 0; $i <= 10; ++$i) {
             $figure = new Figure();
             $figure->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit rutrum semper. Aenean pharetra quis orci in cursus. Suspendisse aliquam facilisis accumsan. Nullam condimentum nisi sit amet nulla interdum, sit amet accumsan tortor luctus. Sed nec dui in ex ultrices commodo. Praesent varius sagittis dui, ac hendrerit ante congue at. Sed commodo tellus vitae nisi pretium mollis. Suspendisse varius tortor non efficitur consectetur. Nulla consequat, mauris vel pulvinar posuere, odio risus faucibus dolor, sed tempus mauris quam et risus. Aenean ac urna finibus, pharetra augue at, tincidunt libero. Fusce ut tortor elementum, eleifend orci nec, euismod tellus.');
             $figure->setDateCreation($date);
@@ -139,8 +137,8 @@ class FigureFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(
+        return [
             GroupeFixtures::class,
-        );
+        ];
     }
 }

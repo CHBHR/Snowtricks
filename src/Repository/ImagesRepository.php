@@ -41,7 +41,7 @@ class ImagesRepository extends ServiceEntityRepository
 
     public function findNameByFigureId(int $figureId)
     {
-        $names = array('i.nom');
+        $names = ['i.nom'];
 
         $query = $this->getEntityManager()->createQueryBuilder()
         ->select($names, 'f')
@@ -53,6 +53,5 @@ class ImagesRepository extends ServiceEntityRepository
         $data = $query->getQuery()->getResult();
 
         return $data;
-
     }
 }

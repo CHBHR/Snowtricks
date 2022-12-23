@@ -19,40 +19,39 @@ class FigureType extends AbstractType
     {
         $builder
             ->add('nom', TypeTextType::class,
-            [
-                'label' => 'Titre',
-                'required' => true
-            ])
+                [
+                    'label' => 'Titre',
+                    'required' => true,
+                ])
 
-            //Ajout d'un champs d'une autre entitée sous forme de choix déroulant
-            ->add('groupe', EntityType::class, 
-            [
-                'class' => Groupe::class,
-                'choice_label' => 'titre',
-                'label' => 'difficulté'
-            ])
+            // Ajout d'un champs d'une autre entitée sous forme de choix déroulant
+            ->add('groupe', EntityType::class,
+                [
+                    'class' => Groupe::class,
+                    'choice_label' => 'titre',
+                    'label' => 'difficulté',
+                ])
             ->add('description', TextareaType::class,
-            [
-                'label' => 'Description',
-                'required' => true,
-                'constraints' => [new NotBlank()]
-
-            ])
+                [
+                    'label' => 'Description',
+                    'required' => true,
+                    'constraints' => [new NotBlank()],
+                ])
 
             // On ajoute le champ "images" dans le formulaire
             // Il n'est pas lié à la base de données (mapped à false)
-            ->add('images', FileType::class,[
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
-            ])
-            
+            ->add('images', FileType::class, [
+                    'label' => false,
+                    'multiple' => true,
+                    'mapped' => false,
+                    'required' => false,
+                ])
+
             ->add('video', TypeTextType::class, [
-                'mapped' => false,
-                'label' => 'url de la vidéo',
-                'required' => false
-            ])
+                    'mapped' => false,
+                    'label' => 'url de la vidéo',
+                    'required' => false,
+                ])
         ;
     }
 

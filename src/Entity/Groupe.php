@@ -53,7 +53,7 @@ class Groupe
 
     public function addFigure(Figure $figure): self
     {
-        if ($this->figures->contains($figure) === FALSE ) {
+        if (false === $this->figures->contains($figure)) {
             $this->figures->add($figure);
             $figure->setGroupe($this);
         }

@@ -8,17 +8,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity(
-    fields: ["email"],
+    fields: ['email'],
     message: "L'email est déjà utilisé"
 )]
 #[UniqueEntity(
-    fields: ["nomUtilisateur"],
+    fields: ['nomUtilisateur'],
     message: "Ce nom d'utilisateur est déjà pris"
 )]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
@@ -28,11 +28,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name:'email',length: 50, unique:true)]
+    #[ORM\Column(name: 'email', length: 50, unique: true)]
     #[Assert\Email()]
     private ?string $email = null;
 
-    #[ORM\Column(name:'nom_utilisateur',length: 20, unique:true)]
+    #[ORM\Column(name: 'nom_utilisateur', length: 20, unique: true)]
     #[Assert\Length(
         min: 4,
         max: 20,
@@ -49,15 +49,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         min: 8,
         minMessage: "Le mot de passe doit être d'au moins {{ limit }} caractères",
     )]
-
     #[Assert\EqualTo(
-        propertyPath:"confirmerMotDePasse")]
+        propertyPath: 'confirmerMotDePasse')]
     private ?string $motDePasse = null;
 
     #[Assert\EqualTo(
-        propertyPath:"motDePasse",
-        message: "La confirmation est différente du mot de passe"
-        )]
+        propertyPath: 'motDePasse',
+        message: 'La confirmation est différente du mot de passe'
+    )]
     private ?string $confirmerMotDePasse;
 
     #[ORM\OneToOne(mappedBy: 'utilisateurId', cascade: ['persist', 'remove'])]
@@ -69,7 +68,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $resetToken = null;
 
-    #[ORM\OneToMany(mappedBy: "auteur",targetEntity: Commentaire::class, cascade:["remove"])]
+    #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Commentaire::class, cascade: ['remove'])]
     private Collection $commentaires;
 
     public function __construct()
@@ -77,7 +76,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->commentaires = new ArrayCollection();
     }
 
-    public function getUserIdentifier():string
+    public function getUserIdentifier(): string
     {
         return $this->nomUtilisateur;
     }
@@ -194,12 +193,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(?Images $avatar): self
     {
         // Unset the owning side of the relation if necessary
-        if ($avatar === null && $this->avatar !== null) {
+        if (null === $avatar && null !== $this->avatar) {
             $this->avatar->setUtilisateurId(null);
         }
 
         // Set the owning side of the relation if necessary
-        if ($avatar !== null && $avatar->getUtilisateurId() !== $this) {
+        if (null !== $avatar && $avatar->getUtilisateurId() !== $this) {
             $avatar->setUtilisateurId($this);
         }
 
@@ -252,7 +251,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeCommentaire(Commentaire $commentaire): self
     {
-        if ($this->commentaires->removeElement($commentaire) === TRUE ) {
+        if (true === $this->commentaires->removeElement($commentaire)) {
             // Set the owning side to null (unless already changed)
             if ($commentaire->getAuteur() === $this) {
                 $commentaire->setAuteur(null);

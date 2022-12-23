@@ -21,7 +21,7 @@ class CommentaireFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($comment1);
 
         $comment2 = new Commentaire();
-        $comment2->setContenu("Franchement celle là elle fait toujours effet");
+        $comment2->setContenu('Franchement celle là elle fait toujours effet');
         $comment2->setDateCreation(new \DateTime());
         $comment2->setFigure($this->getReference('figure2'));
         $comment2->setAuteur($this->getReference('user1'));
@@ -35,7 +35,7 @@ class CommentaireFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($comment3);
 
         $comment4 = new Commentaire();
-        $comment4->setContenu("Une figure pas si facile que ça");
+        $comment4->setContenu('Une figure pas si facile que ça');
         $comment4->setDateCreation($date->add(new \DateInterval('P7DT23H')));
         $comment4->setFigure($this->getReference('figure10'));
         $comment4->setAuteur($this->getReference('user3'));
@@ -49,14 +49,14 @@ class CommentaireFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($comment5);
 
         $comment6 = new Commentaire();
-        $comment6->setContenu("Franchement je ne la trouve pas si compliquée à faire");
+        $comment6->setContenu('Franchement je ne la trouve pas si compliquée à faire');
         $comment6->setDateCreation($date->add(new \DateInterval('P16DT15H15M')));
         $comment6->setFigure($this->getReference('figure10'));
         $comment6->setAuteur($this->getReference('user2'));
         $manager->persist($comment6);
 
         $comment7 = new Commentaire();
-        $comment7->setContenu("Une belle figure quand même ;)");
+        $comment7->setContenu('Une belle figure quand même ;)');
         $comment7->setDateCreation($date->add(new \DateInterval('P18DT4H7M')));
         $comment7->setFigure($this->getReference('figure10'));
         $comment7->setAuteur($this->getReference('user2'));
@@ -77,24 +77,23 @@ class CommentaireFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($comment9);
 
         $comment10 = new Commentaire();
-        $comment10->setContenu("IZI");
+        $comment10->setContenu('IZI');
         $comment10->setDateCreation($date->add(new \DateInterval('P3D')));
         $comment10->setFigure($this->getReference('figure10'));
         $comment10->setAuteur($this->getReference('user1'));
         $manager->persist($comment10);
 
         $comment11 = new Commentaire();
-        $comment11->setContenu("Franchement, celle là il faut que je la travaille pendant les vacances");
+        $comment11->setContenu('Franchement, celle là il faut que je la travaille pendant les vacances');
         $comment11->setDateCreation($date->add(new \DateInterval('P3DT2H55M')));
         $comment11->setFigure($this->getReference('figure10'));
         $comment11->setAuteur($this->getReference('user3'));
         $manager->persist($comment11);
 
-        for($i = 0; $i<=10; $i++)
-        {
+        for ($i = 0; $i <= 10; ++$i) {
             $comment = new Commentaire();
-            $comment->setContenu($i." 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc iaculis congue fringilla. Sed pellentesque nisi ipsum, vel lacinia ipsum vehicula ut. Cras bibendum sagittis tellus in malesuada. In nec lectus rutrum, semper nulla quis, tempus lectus. Maecenas sit amet fringilla lorem, in vestibulum libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nunc felis, sodales ac lacinia et, euismod et ipsum.");
+            $comment->setContenu($i.' 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc iaculis congue fringilla. Sed pellentesque nisi ipsum, vel lacinia ipsum vehicula ut. Cras bibendum sagittis tellus in malesuada. In nec lectus rutrum, semper nulla quis, tempus lectus. Maecenas sit amet fringilla lorem, in vestibulum libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nunc felis, sodales ac lacinia et, euismod et ipsum.');
             $comment->setDateCreation($date);
             $comment->setFigure($this->getReference('figure1'));
             $comment->setAuteur($this->getReference('user1'));
@@ -106,10 +105,9 @@ class CommentaireFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(
+        return [
             FigureFixtures::class,
             UtilisateurFixtures::class,
-
-        );
+        ];
     }
 }
