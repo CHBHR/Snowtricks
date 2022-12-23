@@ -28,7 +28,7 @@ class ConnexionController extends AbstractController
         return $this->render('security/connexion.html.twig', [
             'controller_name' => 'LoginController',
             'last_username' => $lastUsername,
-            'error'         => $error
+            'error' => $error,
         ]);
     }
 
@@ -44,34 +44,34 @@ class ConnexionController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->hashPassword(
-                $utilisateur, 
+                $utilisateur,
                 $utilisateur->getMotDePasse()
             );
             $utilisateur->setMotDePasse($hash);
             $utilisateur->setDateInscription(new \DateTime());
             $utilisateur->setResetToken('');
-            
-            if(!$form->get('avatar')->getData()){
+
+            if (!$form->get('avatar')->getData()) {
                 $default = new Images();
                 $default->setNom($defaultAvatar);
                 $entityManager->persist($utilisateur);
 
-                //Création de l'image en db
-    
+                // Création de l'image en db
+
                 $entityManager->persist($default);
                 $utilisateur->setAvatar($default);
-            }else{
+            } else {
                 /**
-                 * Gestion de l'upload des images
+                 * Gestion de l'upload des images.
                  */
                 $avatar = $form->get('avatar')->getData();
-                
-                //Gestion du nom du fichier
+
+                // Gestion du nom du fichier
                 $fichier = md5(uniqid()).'.'.$avatar->guessExtension();
 
-                //Copie du fichier dans le dossier uploads
+                // Copie du fichier dans le dossier uploads
                 $avatar->move(
                     $this->getParameter('images_directory'),
                     $fichier
@@ -87,45 +87,46 @@ class ConnexionController extends AbstractController
 
             $entityManager->flush();
 
-            //Génération du JWT utilisateur
-            //Création du header
+            // Génération du JWT utilisateur
+            // Création du header
             $header = [
                 'alg' => 'HS256',
-                'typ' => 'JWT'
+                'typ' => 'JWT',
             ];
 
-            //Création du payload
+            // Création du payload
             $payload = [
-                'user_id' => $utilisateur->getId()
+                'user_id' => $utilisateur->getId(),
             ];
 
-            //Génération du token
+            // Génération du token
             $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
 
-            //Envoie de l'email
+            // Envoie de l'email
             $sendMail->send(
                 'no-reply@monsite.net',
                 $utilisateur->getEmail(),
                 'Valider votre compte sur SnowTricks',
                 'emailInscription',
-                //on pourrai ici aussi écrire compact($utilisateur)
+                // on pourrai ici aussi écrire compact($utilisateur)
                 [
                     'utilisateur' => $utilisateur,
-                    'token' => $token
+                    'token' => $token,
                 ]
             );
 
             $this->addFlash('success', 'Votre inscription a bien été validée');
+
             return $this->redirectToRoute('app_security_connexion');
         }
 
         return $this->render('security/inscription.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
-    
-    #[Route('/snowtricks/deconnexion', name:"app_security_deconnexion")]
-    public function deconnexion() {}
-
+    #[Route('/snowtricks/deconnexion', name: 'app_security_deconnexion')]
+    public function deconnexion()
+    {
+    }
 }

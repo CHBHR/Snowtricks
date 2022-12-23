@@ -9,7 +9,8 @@ class SendMailService
 {
     private $mailer;
 
-    public function __construct(MailerInterface $mailer){
+    public function __construct(MailerInterface $mailer)
+    {
         $this->mailer = $mailer;
     }
 
@@ -19,9 +20,8 @@ class SendMailService
         string $subject,
         string $template,
         array $context
-    ): void
-    {
-        //On crée le mail
+    ): void {
+        // On crée le mail
         $email = (new TemplatedEmail())
         ->from($from)
         ->to($to)
@@ -29,7 +29,7 @@ class SendMailService
         ->htmlTemplate("emails/$template.html.twig")
         ->context($context);
 
-        //On envoie le mail
+        // On envoie le mail
         $this->mailer->send($email);
     }
 }

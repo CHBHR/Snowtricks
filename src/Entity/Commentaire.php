@@ -24,7 +24,7 @@ class Commentaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Figure $figure = null;
 
-    #[ORM\ManyToOne(targetEntity:"Utilisateur", inversedBy: 'commentaires')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur', inversedBy: 'commentaires')]
     private ?Utilisateur $auteur = null;
 
     public function getId(): ?int
@@ -55,11 +55,9 @@ class Commentaire
 
         return $this;
     }
-    
+
     /**
-     * Permet de récupérer l'objet Figure grâce à la relation
-     *
-     * @return Figure | null
+     * Permet de récupérer l'objet Figure grâce à la relation.
      */
     public function getFigure(): ?figure
     {

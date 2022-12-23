@@ -14,8 +14,8 @@ class CommentaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('contenu', TextareaType::class,[
-                'constraints' => [new NotBlank()]
+            ->add('contenu', TextareaType::class, [
+                'constraints' => [new NotBlank()],
             ])
         ;
     }

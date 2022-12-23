@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Commentaire;
-use App\Entity\Figure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -56,15 +55,15 @@ class CommentaireRepository extends ServiceEntityRepository
         $paginator = new Paginator($query);
         $data = $paginator->getQuery()->getResult();
 
-        //Verif qu'il y a des données
-        if(empty($data)){
+        // Verif qu'il y a des données
+        if (empty($data)) {
             return $result;
         }
 
-        //Calcul du nombre total de figures
+        // Calcul du nombre total de figures
         $nbCommentairesMax = $paginator->count();
 
-        //On remplt le tableau
+        // On remplt le tableau
         $result['data'] = $data;
         $result['nbCommentairesMax'] = $nbCommentairesMax;
         $result['limit'] = $limit;

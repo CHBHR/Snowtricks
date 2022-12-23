@@ -2,15 +2,14 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use App\Entity\Utilisateur;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InscriptionType extends AbstractType
 {
@@ -19,15 +18,15 @@ class InscriptionType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('nomUtilisateur', TextType::class, [
-                'mapped' => true
+                'mapped' => true,
             ])
             ->add('motDePasse', PasswordType::class)
             ->add('confirmerMotDePasse', PasswordType::class)
-            ->add('avatar', FileType::class,[
+            ->add('avatar', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
-                'required' => false
+                'required' => false,
                 ])
         ;
     }

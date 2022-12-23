@@ -2,16 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Filesystem\Filesystem as FilesystemFilesystem;
-
-use App\Form\FigureType;
 use App\Entity\Figure;
 use App\Entity\Images;
 use App\Entity\Video;
+use App\Form\FigureType;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem as FilesystemFilesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FigureController extends AbstractController
 {
@@ -25,25 +24,25 @@ class FigureController extends AbstractController
 
         $entityManager = $doctrine->getManager();
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $figure->setDateCreation(new \DateTime());
             $figure->setDateModification(new \DateTime());
-            
+
             // Gestion des images
             $images = $form->get('images')->getData();
 
-            if(!$images) {
-                $defaultImage ='default.jpg';
+            if (!$images) {
+                $defaultImage = 'default.jpg';
                 $default = new Images();
                 $default->setNom($defaultImage);
-                //Création de l'image en db
+                // Création de l'image en db
                 $entityManager->persist($default);
                 $figure->addImage($default);
             } else {
-                foreach($images as $image){
-                    //Gestion du nom du fichier
+                foreach ($images as $image) {
+                    // Gestion du nom du fichier
                     $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                    //Copie du fichier dans le dossier uploads
+                    // Copie du fichier dans le dossier uploads
                     $image->move(
                         $this->getParameter('images_directory'),
                         $fichier
@@ -59,22 +58,23 @@ class FigureController extends AbstractController
             // Upload des videos en db
             $videos = $form->get('video')->getData();
 
-            if($videos != null){
-                $video = new Video;
+            if (null != $videos) {
+                $video = new Video();
                 $video->setUrl($videos);
                 $entityManager->persist($video);
                 $figure->addVideo($video);
             }
             $entityManager->persist($figure);
             $entityManager->flush();
-    
+
             $this->addFlash('success', 'Votre figure à bien été enregistrée');
+
             return $this->redirectToRoute('app_home');
         }
 
         return $this->render('website/figureCreate.html.twig', [
             'formNewFigure' => $form->createView(),
-            'figure' => $figure
+            'figure' => $figure,
         ]);
     }
 
@@ -82,16 +82,15 @@ class FigureController extends AbstractController
     public function editNewFigure(Figure $figure = null, Request $request, ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine->getManager();
-        
+
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $figure->setDateModification(new \DateTime());
             // Gestion des images
             $images = $form->get('images')->getData();
-            foreach($images as $image){
+            foreach ($images as $image) {
                 // Gestion du nom du fichier
                 $fichier = md5(uniqid()).'.'.$image->guessExtension();
                 $image->move(
@@ -107,33 +106,33 @@ class FigureController extends AbstractController
 
             // Upload des videos en db
             $videos = $form->get('video')->getData();
-            if($videos != null){
-                $video = new Video;
+            if (null != $videos) {
+                $video = new Video();
                 $video->setUrl($videos);
                 $entityManager->persist($video);
                 $figure->addVideo($video);
             }
-            
+
             $entityManager->persist($figure);
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre figure à bien été enregistrée');
+
             return $this->redirectToRoute('app_home');
         }
 
         return $this->render('website/figureEdit.html.twig', [
-            'formEditFigure' =>$form->createView(),
-            'figure' => $figure
+            'formEditFigure' => $form->createView(),
+            'figure' => $figure,
         ]);
     }
 
     /**
-     * Suppression des images
+     * Suppression des images.
      */
-    #[Route('/snowtricks/figure/{id}/image/delete', name: 'app_figure_image_delete',  methods:["DELETE", "GET"])]
-    public function deleteImage(Images $image,ManagerRegistry $doctrine)
+    #[Route('/snowtricks/figure/{id}/image/delete', name: 'app_figure_image_delete', methods: ['DELETE', 'GET'])]
+    public function deleteImage(Images $image, ManagerRegistry $doctrine)
     {
-
         $figureId = $image->getFigure()->getId();
 
         $nomImg = $image->getNom();
@@ -149,12 +148,11 @@ class FigureController extends AbstractController
     }
 
     /**
-     * Suppression des videos
+     * Suppression des videos.
      */
-    #[Route('/snowtricks/figure/{id}/video/delete', name: 'app_figure_video_delete', methods:["DELETE", "GET"])]
-    public function deleteVideo(Video $video,ManagerRegistry $doctrine)
+    #[Route('/snowtricks/figure/{id}/video/delete', name: 'app_figure_video_delete', methods: ['DELETE', 'GET'])]
+    public function deleteVideo(Video $video, ManagerRegistry $doctrine)
     {
-
         $figureId = $video->getFigure()->getId();
 
         // On supprime l'entrée en db
@@ -166,7 +164,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * Suppression de la figure
+     * Suppression de la figure.
      */
     #[Route('/snowtricks/figure/{id}/delete', name: 'app_figure_delete')]
     public function deleteFigure(Figure $figure, ManagerRegistry $doctrine)
@@ -181,7 +179,7 @@ class FigureController extends AbstractController
 
         $filesystem = new FilesystemFilesystem();
 
-        foreach($imagesNom as $nomImage){
+        foreach ($imagesNom as $nomImage) {
             $filesystem->remove($this->getParameter('images_directory').'/'.$nomImage['nom']);
         }
 
@@ -189,6 +187,5 @@ class FigureController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_home');
-
     }
 }

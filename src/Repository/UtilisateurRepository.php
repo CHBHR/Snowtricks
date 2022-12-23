@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Utilisateur>
- *
  */
 class UtilisateurRepository extends ServiceEntityRepository
 {
@@ -37,7 +36,7 @@ class UtilisateurRepository extends ServiceEntityRepository
 
     public function findImageNameByUserId(int $userId)
     {
-        $names = array('i.nom');
+        $names = ['i.nom'];
 
         $query = $this->getEntityManager()->createQueryBuilder()
         ->select($names, 'u')
@@ -49,6 +48,5 @@ class UtilisateurRepository extends ServiceEntityRepository
         $data = $query->getQuery()->getResult();
 
         return $data;
-
     }
 }

@@ -12,9 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FigureRepository::class)]
 #[UniqueEntity(
-    fields:'nom',
-    message:'Ce {{ label }}	est déjà pris'
-    )]
+    fields: 'nom',
+    message: 'Ce {{ label }}	est déjà pris'
+)]
 class Figure
 {
     #[ORM\Id]
@@ -22,7 +22,7 @@ class Figure
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name:'nom',type:'string',length: 100, unique:true)]
+    #[ORM\Column(name: 'nom', type: 'string', length: 100, unique: true)]
     #[Assert\Length(
         min: 2,
         max: 150,
@@ -50,13 +50,13 @@ class Figure
     private ?Groupe $groupe = null;
 
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Commentaire::class, orphanRemoval: true)]
-    #[ORM\OrderBy(["dateCreation"=>"DESC"])]
+    #[ORM\OrderBy(['dateCreation' => 'DESC'])]
     private Collection $commentaires;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Images::class, cascade:["remove"])]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Images::class, cascade: ['remove'])]
     private Collection $images;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, cascade:["remove"])]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, cascade: ['remove'])]
     private Collection $videos;
 
     public function __construct()

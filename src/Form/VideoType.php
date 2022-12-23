@@ -14,12 +14,12 @@ class VideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //UrlType::class, $this->getOptions("Vidéo", "Url de la vidéo")
+            // UrlType::class, $this->getOptions("Vidéo", "Url de la vidéo")
             ->add('url', TextType::class, [
-                'label' => 'lien embedded de la video'
+                'label' => 'lien embedded de la video',
             ])
             ->add('description', TextType::class, [
-                'label' => 'Titre de la vidéo'
+                'label' => 'Titre de la vidéo',
             ])
         ;
     }
