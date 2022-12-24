@@ -51,7 +51,7 @@ class HomeController extends AbstractController
             $manager->flush();
 
             return $this->redirectToRoute('app_figure_show', [
-                'id' => $figure->getId(),
+                'nom' => $figure->getNom(),
             ]);
         }
 

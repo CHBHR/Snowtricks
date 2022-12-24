@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Images;
 use App\Entity\Utilisateur;
+use App\Form\InscriptionType;
 use App\Service\JWTService;
 use App\Service\SendMailService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -68,21 +69,23 @@ class ConnexionController extends AbstractController
                  */
                 $avatar = $form->get('avatar')->getData();
 
-                // Gestion du nom du fichier
-                $fichier = md5(uniqid()).'.'.$avatar->guessExtension();
+                foreach ($avatar as $avat) {
+                    // Gestion du nom du fichier
+                    $fichier = md5(uniqid()).'.'.$avat->guessExtension();
 
-                // Copie du fichier dans le dossier uploads
-                $avatar->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                $avat = new Images();
-                $avat->setNom($fichier);
+                    // Copie du fichier dans le dossier uploads
+                    $avat->move(
+                        $this->getParameter('images_directory'),
+                        $fichier
+                    );
+                    $avat = new Images();
+                    $avat->setNom($fichier);
 
-                $entityManager->persist($utilisateur);
+                    $entityManager->persist($utilisateur);
 
-                $entityManager->persist($avat);
-                $utilisateur->setAvatar($avat);
+                    $entityManager->persist($avat);
+                    $utilisateur->setAvatar($avat);
+                }
             }
 
             $entityManager->flush();
